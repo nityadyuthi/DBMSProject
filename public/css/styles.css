@@ -1,0 +1,82 @@
+body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+}
+
+.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: #fff;
+    font-style: unset;
+    background-color: #03e5b7;
+    background-image: linear-gradient(315deg, #03e5b7 0%, #037ade 74%);
+}
+
+.navbar-brand.brand {
+    color: white;
+    font-style: unset;
+}
+
+.navbar-nav li a {
+    color: white !important;
+    font-style: unset;
+}
+
+.navbar-nav li a:hover {
+    color: #037ade !important;
+}
+
+.footer-padding {
+    padding-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #03e5b7;
+    background-image: linear-gradient(315deg, #03e5b7 0%, #037ade 74%);
+
+}
+
+.footer p {
+    margin-top: 25px;
+    font-size: 12px;
+    color: #fff;
+}
+
+.form-group {
+    margin-bottom: 5px;
+}
+
+.padding {
+    padding: 2rem;
+}
+
+button.padding {
+    margin: 2rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+}
+
+h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+}
