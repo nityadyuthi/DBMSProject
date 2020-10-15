@@ -2,39 +2,23 @@
 <% if (status==="ok") { %>
 <h1>Success! ✔️</h1>
 <h3>Which entity do you want to work with?</h3>
-<div class="form-check">
-    <input class="form-check-input" type="radio" name="exampleRadios" id="radio1" value="option1" checked>
-    <label class="form-check-label" for="exampleRadios1">
-        Student
-    </label>
+<div class="list-group">
+  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+
+  
+  <a href="#" class="list-group-item list-group-item-action list-group-item-primary">A simple primary list group item</a>
+  <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">A simple secondary list group item</a>
+  <a href="#" class="list-group-item list-group-item-action list-group-item-success">A simple success list group item</a>
+  <a href="#" class="list-group-item list-group-item-action list-group-item-danger">A simple danger list group item</a>
+  <a href="#" class="list-group-item list-group-item-action list-group-item-warning">A simple warning list group item</a>
+  <a href="#" class="list-group-item list-group-item-action list-group-item-info">A simple info list group item</a>
+  <a href="#" class="list-group-item list-group-item-action list-group-item-light">A simple light list group item</a>
+  <a href="#" class="list-group-item list-group-item-action list-group-item-dark">A simple dark list group item</a>
 </div>
-<div class="form-check">
-    <input class="form-check-input" type="radio" name="exampleRadios" id="radio2" value="option2">
-    <label class="form-check-label" for="exampleRadios2">
-        Class
-    </label>
-</div>
-<div class="form-check">
-    <input class="form-check-input" type="radio" name="exampleRadios" id="radio3" value="option2">
-    <label class="form-check-label" for="exampleRadios2">
-        Instructor
-    </label>
-</div>
-<div class="form-check">
-    <input class="form-check-input" type="radio" name="exampleRadios" id="radio4" value="option2">
-    <label class="form-check-label" for="exampleRadios2">
-        Department
-    </label>
-</div>
-<div class="form-check">
-    <input class="form-check-input" type="radio" name="exampleRadios" id="radio5" value="option2">
-    <label class="form-check-label" for="exampleRadios2">
-        Guardian
-    </label>
 </div>
 <button type="button" action="/" class="padding btn btn-lg btn-primary">Go!</button>
 <%} else { %>
-<h1 class="padding">Who are you? Let's take you back!</h1>
+<h1 class="padding">Who dat. Go back noww ❌❌</h1>
 <a href="/" class="padding btn btn-lg btn-primary">Go!</a>
 <% } %>
 <%- include("partials/footer") -%>
