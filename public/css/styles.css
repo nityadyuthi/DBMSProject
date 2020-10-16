@@ -16,6 +16,11 @@ body {
     font-weight: 800;
 }
 
+h1, h2, h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+}
+
 .container-fluid {
     padding-top: 70px;
     padding-bottom: 70px;
@@ -82,7 +87,14 @@ body {
 }
 
 .padding {
-    padding: 1.5rem;
+    padding: 1.25rem;
+}
+
+.padding-sm {
+    margin: 1.5rem;
+    font-size: 1.75rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
 }
 
 button.padding {
@@ -102,7 +114,61 @@ a.padding {
     background-color: #037ade;
 }
 
-h1 {
+table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 5px !important;
+}
+
+.styled-table thead tr {
+    border-radius: 8px;
+    background-color: #03e5b7;
+    color: #ffffff;
+    text-align: left;
     font-family: 'Inter', sans-serif;
     font-weight: 900;
+}
+
+.styled-table th,
+.styled-table td {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #03e5b7;
+    border-radius: 8px;
+}
+
+.list-group {
+ max-width: 55rem;
+}
+
+a.list-group-item-info, button.list-group-item-info {
+    background:  #f3f3f3;
+    color: rgb(56, 55, 55);
+}
+
+a.list-group-item-info:hover, button.list-group-item-info:hover {
+    background:  #d3d3d3;
+    color: black;
 }
