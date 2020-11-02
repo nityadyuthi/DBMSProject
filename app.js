@@ -19,9 +19,9 @@ app.use(express.static("public"));
 //_____________________________________________________DATABASE CONNECTION____________________________________________________________//
 let connection = mysql.createConnection({
   host: "remotemysql.com",
-  user: "BUIYPTQ3nb",
-  password: "QeJzztQw2D",
-  database: "BUIYPTQ3nb",
+  user: "NP2EPmxQOf",
+  password: "oAoMSzPzpu",
+  database: "NP2EPmxQOf",
 });
 
 connection.connect(function (err) {
@@ -54,8 +54,8 @@ app.get("/home", function (req, res) {
 
 //_____________________________________________________STUDENT____________________________________________________________//
 //Student Home
-app.get("/student/index", (req, res) => {
-  connection.query("select * from Employee", (error, result, fields) => {
+app.get("/student/", (req, res) => {
+  connection.query("select * from Student", (error, result, fields) => {
     if (error) throw error;
     console.log(result);
     res.render("./student/index", { data: result, message: "Welcome" });
@@ -72,7 +72,7 @@ app.post("/student/create", (req, res) => {
   const p = req.body.no;
   let message = "Success";
   connection.query(
-    "insert into Employee (name,no) values (?)",
+    "insert into Student (name,no) values (?)",
     [[n, p]],
     (error, result) => {
       if (error) {
@@ -92,7 +92,7 @@ app.post("/student/delete", (req, res) => {
   const n = req.body.no;
   let message = "Success";
   connection.query(
-    "delete from Employee where no=" + connection.escape(n),
+    "delete from Student where no=" + connection.escape(n),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
@@ -115,7 +115,7 @@ app.post("/student/update", (req, res) => {
   const p = req.body.name;
   let message = "Success";
   connection.query(
-    "update Employee set name=" +
+    "update Student set name=" +
       connection.escape(p) +
       "where no=" +
       connection.escape(n),
@@ -134,16 +134,12 @@ app.post("/student/update", (req, res) => {
 //_____________________________________________________MISCELLANEOUS____________________________________________________________//
 // About Route
 app.get("/about", function (req, res) {
-  res.render("about", {
-    aboutPageContent: aboutContent,
-  });
+  res.render("./about");
 });
 
 // Contact Route
 app.get("/contact", function (req, res) {
-  res.render("contact", {
-    contactPageContent: contactContent,
-  });
+  res.render("./contact");
 });
 
 app.listen(3000, function () {
