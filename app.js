@@ -72,7 +72,7 @@ app.post("/student/create", (req, res) => {
   const p = req.body.no;
   let message = "Success";
   connection.query(
-    "insert into Student (name,no) values (?)",
+    "insert into Student (sname, usn) values (?)",
     [[n, p]],
     (error, result) => {
       if (error) {
