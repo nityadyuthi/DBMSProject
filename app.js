@@ -125,11 +125,11 @@ app.get("/home", function (req, res) {
   }
 });
 
-//__________________STUDENT_____________________//
-//Student Home
+//__________________Customer_____________________//
+//Customer Home
 app.get("/customer/", (req, res) => {
   connection.query(
-    "select C.CustomerID, C.CustomerName, C.CustomerAddress, M.ModelName, C.PhoneNo from Customer C, Model M where C.ModelID=M.ModelID",
+    "select C.CustomerID, C.CustomerName, C.CustomerAddress, C.PhoneNo from Customer C",
     (error, result, fields) => {
       if (error) throw error;
       console.log(result);
@@ -138,7 +138,7 @@ app.get("/customer/", (req, res) => {
   );
 });
 
-//Student Create
+//Customer Create
 app.get("/customer/create", (req, res) => {
   res.render("./customer/create");
 });
@@ -147,11 +147,10 @@ app.post("/customer/create", (req, res) => {
   const id = req.body.id;
   const name = req.body.name;
   const address = req.body.address;
-  const ModelID = req.body.deviceID;
   const phone = req.body.phone;
   connection.query(
-    "insert into Customer (CustomerID, CustomerName, CustomerAddress, ModelID, PhoneNo) values (?)",
-    [[id, name, address, ModelID, phone]],
+    "insert into Customer (CustomerID, CustomerName, CustomerAddress, PhoneNo) values (?)",
+    [[id, name, address, phone]],
     (error, result) => {
       if (error) {
         if (error.errno === 1062) {
@@ -169,7 +168,7 @@ app.post("/customer/create", (req, res) => {
   );
 });
 
-//Student Delete
+//Customer Delete
 app.get("/customer/delete", (req, res) => {
   res.render("./customer/delete");
 });
@@ -192,7 +191,7 @@ app.post("/customer/delete", (req, res) => {
   );
 });
 
-//Student Update
+//Customer Update
 app.get("/customer/update", (req, res) => {
   res.render("./customer/update");
 });
@@ -251,6 +250,19 @@ app.post("/orders/create", (req, res) => {
     }
   );
 });
+
+//______________Customer Models_______________________//
+
+app.get("/customerModels", (req, res) => {
+  connection.query(
+    "select CustomerID,ModelID from CustomerModel",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result);
+      res.render("./customerModels/index", { data: result, message: "Welcome" });
+    }
+  );
+})
 
 //__________________MISCELLANEOUS_____________________//
 // About Route
