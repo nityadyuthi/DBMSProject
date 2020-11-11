@@ -149,7 +149,6 @@ app.post("/customer/create", (req, res) => {
   const address = req.body.address;
   const ModelID = req.body.deviceID;
   const phone = req.body.phone;
-  let message = "Success";
   connection.query(
     "insert into Customer (CustomerID, CustomerName, CustomerAddress, ModelID, PhoneNo) values (?)",
     [[id, name, address, ModelID, phone]],
@@ -163,7 +162,6 @@ app.post("/customer/create", (req, res) => {
               ". Enter Unique data",
           });
         }
-        message = "Error";
       } else {
         res.redirect("/customer/");
       }
@@ -172,41 +170,42 @@ app.post("/customer/create", (req, res) => {
 });
 
 //Student Delete
-app.get("/student/delete", (req, res) => {
-  res.render("./student/delete");
+app.get("/customer/delete", (req, res) => {
+  res.render("./customer/delete");
 });
 
-app.post("/student/delete", (req, res) => {
-  const n = req.body.no;
-  let message = "Success";
+app.post("/customer/delete", (req, res) => {
+  const id = req.body.id;
   connection.query(
-    "delete from Student where no=" + connection.escape(n),
+    "delete from Customer where CustomerID=" + connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
-        console.log("Hi");
-        message = "Error";
-        console.log(error);
+        res.render("./error", {
+          message:
+            "There is no entry with Customer ID " + id,
+        });
+      } else {
+        res.redirect("/customer/");
       }
-      console.log(result);
-      res.render("./student/index", { message: message });
+
     }
   );
 });
 
 //Student Update
-app.get("/student/update", (req, res) => {
-  res.render("./student/update");
+app.get("/customer/update", (req, res) => {
+  res.render("./customer/update");
 });
 
-app.post("/student/update", (req, res) => {
+app.post("/customer/update", (req, res) => {
   const n = req.body.no;
   const p = req.body.name;
   let message = "Success";
   connection.query(
     "update Student set name=" +
-      connection.escape(p) +
-      "where no=" +
-      connection.escape(n),
+    connection.escape(p) +
+    "where no=" +
+    connection.escape(n),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
