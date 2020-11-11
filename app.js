@@ -380,7 +380,7 @@ app.post("/modelParts/create", (req, res) => {
   const ModelID = req.body.ModelID;
 
   connection.query(
-    "insert into Parts (PartID, ModelID) values (?)",
+    "insert into PartsOfModel (ModelID, PartID) values (?)",
     [[PartID, ModelID]],
     (error, result) => {
       if (error) {
