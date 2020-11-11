@@ -1,32 +1,12 @@
-<%- include("partials/header") -%> <% if (status==="ok") { %>
+<%- include("partials/header") -%>
 <h1>You're in! ✔️</h1>
 <h3>Which entity do you want to work with?</h3>
 <div class="padding list-group">
-  <a href="./student/" class="padding-sm list-group-item list-group-item-info"
-    >Student</a
-  >
-  <a
-    href="#"
-    class="padding-sm list-group-item list-group-item-action list-group-item-info"
-    >Course</a
-  >
-  <a
-    href="#"
-    class="padding-sm list-group-item list-group-item-action list-group-item-info"
-    >Instructor</a
-  >
-  <a
-    href="#"
-    class="padding-sm list-group-item list-group-item-action list-group-item-info"
-    >Department</a
-  >
-  <a
-    href="#"
-    class="padding-sm list-group-item list-group-item-action list-group-item-info"
-    >Guardian</a
-  >
+  <a href="./customer/" class="padding-sm list-group-item list-group-item-info">Customer</a>
+  <a href="./customerModels" class="padding-sm list-group-item list-group-item-action list-group-item-info">Customer
+    Models</a>
+  <a href="#" class="padding-sm list-group-item list-group-item-action list-group-item-info">Instructor</a>
+  <a href="#" class="padding-sm list-group-item list-group-item-action list-group-item-info">Department</a>
+  <a href="#" class="padding-sm list-group-item list-group-item-action list-group-item-info">Guardian</a>
 </div>
-<%} else { %>
-<h1 class="padding">Invalid User. ❌❌</h1>
-<a href="/" class="padding big btn btn-lg btn-primary">Go Back Home</a>
-<% } %> <%- include("partials/footer") -%>
+<%- include("partials/footer") -%>
