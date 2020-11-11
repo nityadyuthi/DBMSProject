@@ -1,14 +1,14 @@
 html{
-  position:relative; 
+  position: relative; 
   min-height: 100%;
 }
 
 html,body{
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
 }
 .pageContentWrapper{
-  margin-bottom:100px;  /* Height of footer*/
+  margin-bottom: 100px;  /* Height of footer*/
 }
 
 body {
@@ -35,14 +35,14 @@ h1, h2, h3 {
     font-size: 12px;
     letter-spacing: 5px;
     color: #fff;
-    font-style: unset;
     background-color: #03e5b7;
     background-image: linear-gradient(315deg, #03e5b7 0%, #037ade 74%);
 }
 
 .navbar-brand.brand {
     color: white;
-    font-style: unset;
+    letter-spacing: 0.75px;
+    /* font-style: unset; */
 }
 
 .navbar-nav li a {
