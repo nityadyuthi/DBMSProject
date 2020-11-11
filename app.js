@@ -205,13 +205,13 @@ app.post("/customer/update", (req, res) => {
   let message = "Success";
   connection.query(
     "update Customer set CustomerName=" +
-      connection.escape(name) +
-      ", CustomerAddress=" +
-      connection.escape(address) +
-      ", PhoneNo=" +
-      connection.escape(phone) +
-      "where CustomerID=" +
-      connection.escape(id),
+    connection.escape(name) +
+    ", CustomerAddress=" +
+    connection.escape(address) +
+    ", PhoneNo=" +
+    connection.escape(phone) +
+    "where CustomerID=" +
+    connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
@@ -329,13 +329,13 @@ app.post("/customer/update", (req, res) => {
   let message = "Success";
   connection.query(
     "update Customer set CustomerName=" +
-      connection.escape(name) +
-      ", CustomerAddress=" +
-      connection.escape(address) +
-      ", PhoneNo=" +
-      connection.escape(phone) +
-      "where CustomerID=" +
-      connection.escape(id),
+    connection.escape(name) +
+    ", CustomerAddress=" +
+    connection.escape(address) +
+    ", PhoneNo=" +
+    connection.escape(phone) +
+    "where CustomerID=" +
+    connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
@@ -389,6 +389,30 @@ app.post("/customerModels/create", (req, res) => {
     }
   );
 });
+
+app.get("/customerModels/delete", (req, res) => {
+  res.render("./customerModels/delete");
+})
+
+app.post("/customerModels/delete", (req, res) => {
+  const id = req.body.id;
+  const ModelID = req.body.ModelID;
+  connection.query(
+    "delete from CustomerModels where CustomerID=" +
+    connection.escape(id) +
+    "and ModelID=" +
+    connection.escape(ModelID),
+    (error, result) => {
+      if (error || result.affectedRows === 0) {
+        console.log("Hi");
+        message = "Error";
+        console.log(error);
+      }
+      console.log("Result", result);
+      res.redirect("/customerModels/");
+    }
+  );
+})
 
 //______________Parts_______________________//
 
@@ -513,7 +537,7 @@ app.post("/parts/delete", (req, res) => {
   );
 });
 
-//______________Parts of Model_______________________//
+//________________________ Model_______________________//
 
 app.get("/model", (req, res) => {
   connection.query(
@@ -569,6 +593,30 @@ app.post("/model/delete", (req, res) => {
       } else {
         res.redirect("/model/");
       }
+    }
+  );
+});
+
+app.get("/model/update", (req, res) => {
+  res.render("./model/update");
+});
+
+app.post("/model/update", (req, res) => {
+  const ModelID = req.body.ModelID;
+  const ModelName = req.body.ModelName;
+
+  connection.query(
+    "update Model set ModelName=" +
+    connection.escape(ModelName) +
+    "where ModelID=" +
+    connection.escape(ModelID),
+    (error, result) => {
+      if (error || result.affectedRows === 0) {
+        message = "Error";
+        console.log(error);
+      }
+      console.log("Result", result);
+      res.redirect("/model/");
     }
   );
 });
