@@ -70,9 +70,9 @@ passport.deserializeUser(function (user, done) {
 //_____________________________________________________DATABASE CONNECTION____________________________________________________________//
 let connection = mysql.createConnection({
   host: "remotemysql.com",
-  user: "NP2EPmxQOf",
-  password: "oAoMSzPzpu",
-  database: "NP2EPmxQOf",
+  user: "1scowehuIc",
+  password: "dt6VenOJC6",
+  database: "1scowehuIc",
 });
 
 connection.connect(function (err) {
@@ -127,11 +127,11 @@ app.get("/home", function (req, res) {
 
 //_____________________________________________________STUDENT____________________________________________________________//
 //Student Home
-app.get("/student/", (req, res) => {
-  connection.query("select * from Student", (error, result, fields) => {
+app.get("/customer/", (req, res) => {
+  connection.query("select C.CustomerID, C.CustomerName, C.CustomerAddress, M.ModelName, C.PhoneNo from Customer C, Model M where C.ModelID=M.ModelID", (error, result, fields) => {
     if (error) throw error;
     console.log(result);
-    res.render("./student/index", { data: result, message: "Welcome" });
+    res.render("./customer/index", { data: result, message: "Welcome" });
   });
 });
 
@@ -189,9 +189,9 @@ app.post("/student/update", (req, res) => {
   let message = "Success";
   connection.query(
     "update Student set name=" +
-      connection.escape(p) +
-      "where no=" +
-      connection.escape(n),
+    connection.escape(p) +
+    "where no=" +
+    connection.escape(n),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");

@@ -1,0 +1,34 @@
+<%- include("../partials/header") -%>
+<h1>The Customer Table:</h1>
+<table class="styled-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Model Name</th>
+      <th>Mobile Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach(row => { %>
+    <tr>
+      <td><%= row.CustomerID %></td>
+      <td><%= row.CustomerName %></td>
+      <td><%= row.CustomerAddress %></td>
+      <td><%= row.ModelName %></td>
+      <td><%= row.PhoneNo %></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+<h1>Do you want to:</h1>
+<div class="row padding list-group">
+  <a href="../student/create" class="col-sm-3 padding-sm list-group-item list-group-item-info">Create a record</a>
+  <a href="../student/update"
+    class="col-sm-3 padding-sm list-group-item list-group-item-action list-group-item-info">Update a record</a>
+  <a href="../student/delete"
+    class="col-sm-3 padding-sm list-group-item list-group-item-action list-group-item-info">Delete a record</a>
+</div>
+
+<%- include("../partials/footer") -%>
