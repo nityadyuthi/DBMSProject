@@ -152,6 +152,9 @@ app.post("/customer/create", (req, res) => {
     [[id, name, address, ModelID, phone]],
     (error, result) => {
       if (error) {
+        if (error.errno === 1062) {
+          res.render("./error", { message: "There is already an entry with CustomerID= " + id + ". Enter Unique data" });
+        }
         message = "Error";
       } else {
         res.redirect("/customer/",);
