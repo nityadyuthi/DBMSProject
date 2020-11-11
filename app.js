@@ -376,7 +376,7 @@ app.get("/modelParts/create", (req, res) => {
 });
 
 app.post("/modelParts/create", (req, res) => {
-  const PartID = req.body.id;
+  const PartID = req.body.PartID;
   const ModelID = req.body.ModelID;
 
   connection.query(
