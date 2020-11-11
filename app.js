@@ -3,7 +3,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
-let mysql = require("mysql");
+const mysql = require("mysql");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose"); //salt and hash passwords
 
 const app = express();
 
@@ -15,6 +19,53 @@ app.use(
   })
 );
 app.use(express.static("public"));
+
+//Authentication using passport
+
+app.use(
+  session({
+    secret: "Our little secret.",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+mongoose.connect(
+  "mongodb+srv://dyuthi:root@theuserdb.jf6qg.mongodb.net/userDB?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  }
+);
+
+const mongooseConnection = mongoose.connection;
+
+mongooseConnection.once("open", () => {
+  console.log("MongoDB database connection established successfully!");
+});
+
+const userSchema = new mongoose.Schema({
+  email: String,
+  password: String,
+});
+
+userSchema.plugin(passportLocalMongoose);
+
+const User = new mongoose.model("User", userSchema);
+
+passport.use(User.createStrategy());
+//create cookie
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+//read cookie
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
 
 //_____________________________________________________DATABASE CONNECTION____________________________________________________________//
 let connection = mysql.createConnection({
@@ -36,20 +87,42 @@ app.get("/", function (req, res) {
   res.render("index");
 });
 
+// app.post("/", (req, res) => {
+//   const name = req.body.userName;
+//   const pw = req.body.pw;
+//   if (name === "admin" && pw === "root") {
+//     res.redirect("home");
+//   }
+//   res.render("home", { status: "not ok" });
+// });
+
 app.post("/", (req, res) => {
-  const name = req.body.userName;
-  const pw = req.body.pw;
-  if (name === "admin" && pw === "root") {
-    res.redirect("home");
-  }
-  res.render("home", { status: "not ok" });
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password,
+  });
+  req.login(user, function (err) {
+    //login() from passport
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(user);
+      passport.authenticate("local")(req, res, function () {
+        res.render("home");
+      });
+    }
+  });
 });
 
 // Home Route
 app.get("/home", function (req, res) {
-  res.render("home", {
-    status: "ok",
-  });
+  if (req.isAuthenticated()) {
+    res.render("home", {
+      status: "ok",
+    });
+  } else {
+    res.redirect("/");
+  }
 });
 
 //_____________________________________________________STUDENT____________________________________________________________//
