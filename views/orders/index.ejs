@@ -1,0 +1,44 @@
+<%- include("../partials/header") -%>
+<h1>The Orders Table:</h1>
+<table class="styled-table">
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>Order Date</th>
+      <th>Price</th>
+      <th>Customer Name</th>
+      <th>Part Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach(row => { %>
+    <tr>
+      <td><%= row.OrderID %></td>
+      <td><%= row.OrderDate %></td>
+      <td><%= row.Price %></td>
+      <td><%= row.CustomerName %></td>
+      <td><%= row.PartName %></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+<h1>Do you want to:</h1>
+<div class="row padding list-group">
+  <a
+    href="../student/create"
+    class="col-sm-3 padding-sm list-group-item list-group-item-info"
+    >Create a record</a
+  >
+  <a
+    href="../student/update"
+    class="col-sm-3 padding-sm list-group-item list-group-item-action list-group-item-info"
+    >Update a record</a
+  >
+  <a
+    href="../student/delete"
+    class="col-sm-3 padding-sm list-group-item list-group-item-action list-group-item-info"
+    >Delete a record</a
+  >
+</div>
+
+<%- include("../partials/footer") -%>

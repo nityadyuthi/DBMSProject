@@ -67,7 +67,7 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
-//_____________________________________________________DATABASE CONNECTION____________________________________________________________//
+//__________________DATABASE CONNECTION_____________________//
 let connection = mysql.createConnection({
   host: "remotemysql.com",
   user: "1scowehuIc",
@@ -125,33 +125,40 @@ app.get("/home", function (req, res) {
   }
 });
 
-//_____________________________________________________STUDENT____________________________________________________________//
+//__________________STUDENT_____________________//
 //Student Home
 app.get("/customer/", (req, res) => {
-  connection.query("select C.CustomerID, C.CustomerName, C.CustomerAddress, M.ModelName, C.PhoneNo from Customer C, Model M where C.ModelID=M.ModelID", (error, result, fields) => {
-    if (error) throw error;
-    console.log(result);
-    res.render("./customer/index", { data: result, message: "Welcome" });
-  });
+  connection.query(
+    "select C.CustomerID, C.CustomerName, C.CustomerAddress, M.ModelName, C.PhoneNo from Customer C, Model M where C.ModelID=M.ModelID",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result);
+      res.render("./customer/index", { data: result, message: "Welcome" });
+    }
+  );
 });
 
 //Student Create
-app.get("/student/create", (req, res) => {
-  res.render("./student/create");
+app.get("/customer/create", (req, res) => {
+  res.render("./customer/create");
 });
 
-app.post("/student/create", (req, res) => {
-  const n = req.body.name;
-  const p = req.body.no;
+app.post("/customer/create", (req, res) => {
+  const id = req.body.id;
+  const name = req.body.name;
+  const address = req.body.address;
+  const ModelID = req.body.deviceID;
+  const phone = req.body.phone;
   let message = "Success";
   connection.query(
-    "insert into Student (sname, usn) values (?)",
-    [[n, p]],
+    "insert into Customer (CustomerID, CustomerName, CustomerAddress, ModelID, PhoneNo) values (?)",
+    [[id, name, address, ModelID, phone]],
     (error, result) => {
       if (error) {
         message = "Error";
+      } else {
+        res.redirect("/customer/");
       }
-      res.render("./student/create", { message: message });
     }
   );
 });
@@ -189,9 +196,9 @@ app.post("/student/update", (req, res) => {
   let message = "Success";
   connection.query(
     "update Student set name=" +
-    connection.escape(p) +
-    "where no=" +
-    connection.escape(n),
+      connection.escape(p) +
+      "where no=" +
+      connection.escape(n),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
@@ -204,7 +211,41 @@ app.post("/student/update", (req, res) => {
   );
 });
 
-//_____________________________________________________MISCELLANEOUS____________________________________________________________//
+//_____________________________________________________ORDERS____________________________________________________________//
+//Orders Home
+app.get("/orders/", (req, res) => {
+  connection.query(
+    "select O.OrderID, O.OrderDate, O.Price, C.CustomerName, P.PartName from OrderDetails O, Customer C, Parts P where O.CustomerID=C.CustomerID and O.PartId=P.PartID",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result);
+      res.render("./customer/index", { data: result, message: "Welcome" });
+    }
+  );
+});
+
+//Orders Create
+app.get("/orders/create", (req, res) => {
+  res.render("./orders/create");
+});
+
+app.post("/orders/create", (req, res) => {
+  const n = req.body.name;
+  const p = req.body.no;
+  let message = "Success";
+  connection.query(
+    "insert into Orders (sname, usn) values (?)",
+    [[n, p]],
+    (error, result) => {
+      if (error) {
+        message = "Error";
+      }
+      res.render("./orders/create", { message: message });
+    }
+  );
+});
+
+//__________________MISCELLANEOUS_____________________//
 // About Route
 app.get("/about", function (req, res) {
   res.render("./about");
