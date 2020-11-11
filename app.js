@@ -98,17 +98,17 @@ app.get("/", function (req, res) {
 
 app.post("/", (req, res) => {
   const user = new User({
-    username: req.body.username,
-    password: req.body.password,
+    username: req.body.userName,
+    password: req.body.pw,
   });
   req.login(user, function (err) {
     //login() from passport
     if (err) {
       console.log(err);
     } else {
-      console.log(user);
+      // console.log(user);
       passport.authenticate("local")(req, res, function () {
-        res.render("home");
+        res.redirect("/home");
       });
     }
   });
