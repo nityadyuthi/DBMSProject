@@ -490,21 +490,22 @@ app.post("/modelParts/create", (req, res) => {
   );
 });
 
-app.get("/parts/delete", (req, res) => {
-  res.render("./parts/delete");
+app.get("/modelParts/delete", (req, res) => {
+  res.render("./modelParts/delete");
 });
 
-app.post("/parts/delete", (req, res) => {
-  const id = req.body.id;
+app.post("/modelParts/delete", (req, res) => {
+  const PartID = req.body.PartID;
+  const ModelID = req.body.ModelID;
   connection.query(
-    "delete from Parts where PartID=" + connection.escape(id),
+    "delete from PartsOfModel where PartID=" + connection.escape(PartID) + "and ModelId=" + connection.escape(ModelID),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         res.render("./error", {
           message: "There is no entry with Part ID " + id,
         });
       } else {
-        res.redirect("/parts/");
+        res.redirect("/modelParts/");
       }
     }
   );
