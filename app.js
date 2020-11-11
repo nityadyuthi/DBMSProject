@@ -225,17 +225,18 @@ app.post("/customer/update", (req, res) => {
 });
 
 //_____________________________________________________ORDERS____________________________________________________________//
-//Orders Home
+
 // app.get("/orders/", (req, res) => {
 //   connection.query(
-//     "select O.OrderID, O.OrderDate, O.Price, C.CustomerName, P.PartName from OrderDetails O, Customer C, Parts P where O.CustomerID=C.CustomerID and O.PartId=P.PartID",
+//     "select OD.OrderID, C.CustomerName, OD.OrderDate, OD.Price, P.PartName from OrderDetails OD, Customer C, OrderParts OP, Parts P where OD.CustomerID = C.CustomerID and OD.OrderID = OP.OrderID and OP.PartID=P.PartID",
 //     (error, result, fields) => {
 //       if (error) throw error;
 //       console.log(result);
-//       res.render("./customer/index", { data: result, message: "Welcome" });
+//       res.render("./orders/index", { data: result, message: "Welcome" });
 //     }
 //   );
 // });
+
 app.get("/orders/", (req, res) => {
   connection.query("select * from OrderDetails", (error, result, fields) => {
     if (error) throw error;
@@ -244,52 +245,24 @@ app.get("/orders/", (req, res) => {
   });
 });
 
-// //Orders Create
-// app.get("/orders/create", (req, res) => {
-//   res.render("./orders/create");
-// });
-
-// app.post("/orders/create", (req, res) => {
-//   const n = req.body.name;
-//   const p = req.body.no;
-//   let message = "Success";
-//   connection.query(
-//     "insert into Orders (sname, usn) values (?)",
-//     [[n, p]],
-//     (error, result) => {
-//       if (error) {
-//         message = "Error";
-//       }
-//       res.render("./orders/create", { message: message });
-//     }
-//   );
-// });
-
-//Customer Create
+//Order Create
 app.get("/orders/create", (req, res) => {
   res.render("./orders/create");
 });
 
 app.post("/orders/create", (req, res) => {
   const id = req.body.id;
-  const name = req.body.name;
-  const address = req.body.address;
-  const phone = req.body.phone;
+  const date = req.body.date;
+  const price = req.body.price;
   connection.query(
-    "insert into Customer (CustomerID, CustomerName, CustomerAddress, PhoneNo) values (?)",
-    [[id, name, address, phone]],
+    "insert into OrderDetails (CustomerID, OrderDate, Price) values (?)",
+    [[id, date, price]],
     (error, result) => {
       if (error) {
-        if (error.errno === 1062) {
-          res.render("./error", {
-            message:
-              "There is already an entry with CustomerID= " +
-              id +
-              ". Enter Unique data",
-          });
-        }
+        console.log("Error:", error);
       } else {
-        res.redirect("/customer/");
+        console.log("Result:", result);
+        res.redirect("/orders/");
       }
     }
   );
