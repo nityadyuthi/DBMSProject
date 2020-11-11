@@ -82,6 +82,8 @@ connection.connect(function (err) {
   console.log("Connected to the MySQL server.");
 });
 
+//_________________________________________REQUESTS FROM HERE_________________________________________//
+
 //Root Route
 app.get("/", function (req, res) {
   res.render("index");
@@ -123,10 +125,10 @@ app.get("/home", function (req, res) {
   // } else {
   //   res.redirect("/");
   // }
-  res.render("home")
+  res.render("home");
 });
 
-//__________________Customer_____________________//
+//_________________________________Customer__________________________________________//
 //Customer Home
 app.get("/customer/", (req, res) => {
   connection.query(
@@ -181,13 +183,11 @@ app.post("/customer/delete", (req, res) => {
     (error, result) => {
       if (error || result.affectedRows === 0) {
         res.render("./error", {
-          message:
-            "There is no entry with Customer ID " + id,
+          message: "There is no entry with Customer ID " + id,
         });
       } else {
         res.redirect("/customer/");
       }
-
     }
   );
 });
@@ -198,56 +198,152 @@ app.get("/customer/update", (req, res) => {
 });
 
 app.post("/customer/update", (req, res) => {
-  const n = req.body.no;
-  const p = req.body.name;
+  const id = req.body.id;
+  const name = req.body.name;
+  const address = req.body.address;
+  const phone = req.body.phone;
   let message = "Success";
   connection.query(
-    "update Student set name=" +
-    connection.escape(p) +
-    "where no=" +
-    connection.escape(n),
+    "update Customer set CustomerName=" +
+      connection.escape(name) +
+      ", CustomerAddress=" +
+      connection.escape(address) +
+      ", PhoneNo=" +
+      connection.escape(phone) +
+      "where CustomerID=" +
+      connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
         message = "Error";
         console.log(error);
       }
-      console.log(result);
-      res.render("./student/index", { message: message });
+      console.log("Result", result);
+      res.redirect("/customer/");
     }
   );
 });
 
 //_____________________________________________________ORDERS____________________________________________________________//
 //Orders Home
+// app.get("/orders/", (req, res) => {
+//   connection.query(
+//     "select O.OrderID, O.OrderDate, O.Price, C.CustomerName, P.PartName from OrderDetails O, Customer C, Parts P where O.CustomerID=C.CustomerID and O.PartId=P.PartID",
+//     (error, result, fields) => {
+//       if (error) throw error;
+//       console.log(result);
+//       res.render("./customer/index", { data: result, message: "Welcome" });
+//     }
+//   );
+// });
 app.get("/orders/", (req, res) => {
-  connection.query(
-    "select O.OrderID, O.OrderDate, O.Price, C.CustomerName, P.PartName from OrderDetails O, Customer C, Parts P where O.CustomerID=C.CustomerID and O.PartId=P.PartID",
-    (error, result, fields) => {
-      if (error) throw error;
-      console.log(result);
-      res.render("./customer/index", { data: result, message: "Welcome" });
-    }
-  );
+  connection.query("select * from OrderDetails", (error, result, fields) => {
+    if (error) throw error;
+    console.log(result);
+    res.render("./orders/index", { data: result, message: "Welcome" });
+  });
 });
 
-//Orders Create
+// //Orders Create
+// app.get("/orders/create", (req, res) => {
+//   res.render("./orders/create");
+// });
+
+// app.post("/orders/create", (req, res) => {
+//   const n = req.body.name;
+//   const p = req.body.no;
+//   let message = "Success";
+//   connection.query(
+//     "insert into Orders (sname, usn) values (?)",
+//     [[n, p]],
+//     (error, result) => {
+//       if (error) {
+//         message = "Error";
+//       }
+//       res.render("./orders/create", { message: message });
+//     }
+//   );
+// });
+
+//Customer Create
 app.get("/orders/create", (req, res) => {
   res.render("./orders/create");
 });
 
 app.post("/orders/create", (req, res) => {
-  const n = req.body.name;
-  const p = req.body.no;
-  let message = "Success";
+  const id = req.body.id;
+  const name = req.body.name;
+  const address = req.body.address;
+  const phone = req.body.phone;
   connection.query(
-    "insert into Orders (sname, usn) values (?)",
-    [[n, p]],
+    "insert into Customer (CustomerID, CustomerName, CustomerAddress, PhoneNo) values (?)",
+    [[id, name, address, phone]],
     (error, result) => {
       if (error) {
-        message = "Error";
+        if (error.errno === 1062) {
+          res.render("./error", {
+            message:
+              "There is already an entry with CustomerID= " +
+              id +
+              ". Enter Unique data",
+          });
+        }
+      } else {
+        res.redirect("/customer/");
       }
-      res.render("./orders/create", { message: message });
+    }
+  );
+});
+
+//Customer Delete
+app.get("/customer/delete", (req, res) => {
+  res.render("./customer/delete");
+});
+
+app.post("/customer/delete", (req, res) => {
+  const id = req.body.id;
+  connection.query(
+    "delete from Customer where CustomerID=" + connection.escape(id),
+    (error, result) => {
+      if (error || result.affectedRows === 0) {
+        res.render("./error", {
+          message: "There is no entry with Customer ID " + id,
+        });
+      } else {
+        res.redirect("/customer/");
+      }
+    }
+  );
+});
+
+//Customer Update
+app.get("/customer/update", (req, res) => {
+  res.render("./customer/update");
+});
+
+app.post("/customer/update", (req, res) => {
+  const id = req.body.id;
+  const name = req.body.name;
+  const address = req.body.address;
+  const phone = req.body.phone;
+  let message = "Success";
+  connection.query(
+    "update Customer set CustomerName=" +
+      connection.escape(name) +
+      ", CustomerAddress=" +
+      connection.escape(address) +
+      ", PhoneNo=" +
+      connection.escape(phone) +
+      "where CustomerID=" +
+      connection.escape(id),
+    (error, result) => {
+      if (error || result.affectedRows === 0) {
+        console.log("Hi");
+        message = "Error";
+        console.log(error);
+      }
+      console.log("Result", result);
+      res.redirect("/customer/");
     }
   );
 });
@@ -260,10 +356,13 @@ app.get("/customerModels", (req, res) => {
     (error, result, fields) => {
       if (error) throw error;
       console.log(result);
-      res.render("./customerModels/index", { data: result, message: "Welcome" });
+      res.render("./customerModels/index", {
+        data: result,
+        message: "Welcome",
+      });
     }
   );
-})
+});
 
 app.get("/customerModels/create", (req, res) => {
   res.render("./customerModels/create");
@@ -277,14 +376,13 @@ app.post("/customerModels/create", (req, res) => {
     [[id, ModelID]],
     (error, result) => {
       if (error) {
-        console.log(error)
+        console.log(error);
         res.render("./error", {
           message:
             "There is already an entry with CustomerID= " +
             id +
             ". Enter Unique data",
         });
-
       } else {
         res.redirect("/customerModels/");
       }
@@ -303,7 +401,7 @@ app.get("/parts", (req, res) => {
       res.render("./parts/index", { data: result, message: "Welcome" });
     }
   );
-})
+});
 
 app.get("/parts/create", (req, res) => {
   res.render("./parts/create");
@@ -321,14 +419,13 @@ app.post("/parts/create", (req, res) => {
     [[PartID, PartName, PartTypeNo, stock, price]],
     (error, result) => {
       if (error) {
-        console.log(error)
+        console.log(error);
         res.render("./error", {
           message:
             "There is already an entry with CustomerID= " +
             PartID +
             ". Enter Unique data",
         });
-
       } else {
         res.redirect("/parts/");
       }
@@ -347,13 +444,11 @@ app.post("/parts/delete", (req, res) => {
     (error, result) => {
       if (error || result.affectedRows === 0) {
         res.render("./error", {
-          message:
-            "There is no entry with Part ID " + id,
+          message: "There is no entry with Part ID " + id,
         });
       } else {
         res.redirect("/parts/");
       }
-
     }
   );
 });
@@ -369,7 +464,7 @@ app.get("/modelParts", (req, res) => {
       res.render("./modelParts/index", { data: result, message: "Welcome" });
     }
   );
-})
+});
 
 app.get("/modelParts/create", (req, res) => {
   res.render("./modelParts/create");
@@ -384,14 +479,13 @@ app.post("/modelParts/create", (req, res) => {
     [[ModelID, PartID]],
     (error, result) => {
       if (error) {
-        console.log(error)
+        console.log(error);
         res.render("./error", {
           message:
             "There is already an entry with CustomerID= " +
             PartID +
             ". Enter Unique data",
         });
-
       } else {
         res.redirect("/modelParts/");
       }
@@ -410,13 +504,11 @@ app.post("/parts/delete", (req, res) => {
     (error, result) => {
       if (error || result.affectedRows === 0) {
         res.render("./error", {
-          message:
-            "There is no entry with Part ID " + id,
+          message: "There is no entry with Part ID " + id,
         });
       } else {
         res.redirect("/parts/");
       }
-
     }
   );
 });
@@ -432,7 +524,7 @@ app.get("/model", (req, res) => {
       res.render("./model/index", { data: result, message: "Welcome" });
     }
   );
-})
+});
 
 app.get("/model/create", (req, res) => {
   res.render("./model/create");
@@ -447,14 +539,13 @@ app.post("/model/create", (req, res) => {
     [[ModelID, ModelName]],
     (error, result) => {
       if (error) {
-        console.log(error)
+        console.log(error);
         res.render("./error", {
           message:
             "There is already an entry with CustomerID= " +
             PartID +
             ". Enter Unique data",
         });
-
       } else {
         res.redirect("/model/");
       }
@@ -473,17 +564,14 @@ app.post("/model/delete", (req, res) => {
     (error, result) => {
       if (error || result.affectedRows === 0) {
         res.render("./error", {
-          message:
-            "There is no entry with Part ID " + id,
+          message: "There is no entry with Part ID " + id,
         });
       } else {
         res.redirect("/model/");
       }
-
     }
   );
 });
-
 
 //__________________MISCELLANEOUS_____________________//
 // About Route

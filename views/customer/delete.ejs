@@ -1,13 +1,16 @@
 <%- include("../partials/header") -%>
 <form action="/customer/delete" method="POST">
-    <div class="padding row form-group">
-        <div class="col-md-4">
-            <label for="id">
-                <h3>Customer ID</h3>
-            </label>
-            <input type="text" class="form-control" id="id" name="id" />
-        </div>
+  <div class="padding row form-group">
+    <div class="col-md-4">
+      <label for="id">
+        <h3>Customer ID</h3>
+      </label>
+      <input type="text" class="form-control" id="id" name="id" />
     </div>
-    <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>
+  </div>
+  <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>
 </form>
+<a href="/customer/" class="padding btn btn-lg btn-primary"
+  >Back to the Customers Table</a
+>
 <%- include("../partials/footer") -%>

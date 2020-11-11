@@ -1,6 +1,6 @@
 <%- include("../partials/header.ejs") -%>
 <h1>Enter the new details:</h1>
-<form action="/customer/create" method="POST">
+<form action="/customer/update" method="POST">
   <div class="padding row form-group">
     <div class="col-md-4">
       <label for="id">
@@ -25,14 +25,14 @@
       <input type="text" class="form-control" id="address" name="address" />
     </div>
   </div>
-  <div class="padding row form-group">
+  <!-- <div class="padding row form-group">
     <div class="col-md-4">
       <label for="modelID">
         <h3>Model ID</h3>
       </label>
       <input type="text" class="form-control" id="deviceID" name="deviceID" />
     </div>
-  </div>
+  </div> -->
   <div class="padding row form-group">
     <div class="col-md-4">
       <label for="phone">
@@ -43,4 +43,7 @@
   </div>
   <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>
 </form>
+<a href="/customer/" class="padding btn btn-lg btn-primary"
+  >Back to the Customers Table</a
+>
 <%- include("../partials/footer.ejs") -%>
