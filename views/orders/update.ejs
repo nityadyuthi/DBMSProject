@@ -1,3 +1,40 @@
-<%- include("partials/header") -%>
+<%- include("../partials/header.ejs") -%>
+<h1>Enter the new details:</h1>
+<form action="/orders/update" method="POST">
+  <div class="padding row form-group">
+    <div class="col-md-4">
+      <label for="id">
+        <h3>Order ID</h3>
+      </label>
+      <input type="number" class="form-control" id="id" name="id" />
+    </div>
+  </div>
+  <div class="padding row form-group">
+    <div class="col-md-4">
+      <label for="cid">
+        <h3>Customer ID</h3>
+      </label>
+      <input type="number" class="form-control" id="cid" name="cid" />
+    </div>
+  </div>
+  <div class="padding row form-group">
+    <div class="col-md-4">
+      <label for="date"><h3>Date and Time of Order</h3></label>
+      <input type="datetime-local" class="form-control" id="date" name="date" />
+    </div>
+  </div>
 
-<%- include("partials/footer") -%>
+  <div class="padding row form-group">
+    <div class="col-md-4">
+      <label for="price">
+        <h3>Price</h3>
+      </label>
+      <input type="number" class="form-control" id="price" name="price" />
+    </div>
+  </div>
+  <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>
+</form>
+<a href="/orders/" class="padding btn btn-lg btn-primary"
+  >Back to the Orders Table</a
+>
+<%- include("../partials/footer.ejs") -%>

@@ -1,3 +1,16 @@
-<%- include("partials/header") -%>
-
-<%- include("partials/footer") -%>
+<%- include("../partials/header") -%>
+<form action="/orders/delete" method="POST">
+  <div class="padding row form-group">
+    <div class="col-md-4">
+      <label for="id">
+        <h3>Order ID</h3>
+      </label>
+      <input type="text" class="form-control" id="id" name="id" />
+    </div>
+  </div>
+  <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>
+</form>
+<a href="/orders/" class="padding btn btn-lg btn-primary"
+  >Back to the Orders Table</a
+>
+<%- include("../partials/footer") -%>

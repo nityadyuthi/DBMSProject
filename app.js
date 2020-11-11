@@ -205,13 +205,13 @@ app.post("/customer/update", (req, res) => {
   let message = "Success";
   connection.query(
     "update Customer set CustomerName=" +
-    connection.escape(name) +
-    ", CustomerAddress=" +
-    connection.escape(address) +
-    ", PhoneNo=" +
-    connection.escape(phone) +
-    "where CustomerID=" +
-    connection.escape(id),
+      connection.escape(name) +
+      ", CustomerAddress=" +
+      connection.escape(address) +
+      ", PhoneNo=" +
+      connection.escape(phone) +
+      "where CustomerID=" +
+      connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
@@ -269,14 +269,14 @@ app.post("/orders/create", (req, res) => {
 });
 
 //Customer Delete
-app.get("/customer/delete", (req, res) => {
-  res.render("./customer/delete");
+app.get("/orders/delete", (req, res) => {
+  res.render("./orders/delete");
 });
 
-app.post("/customer/delete", (req, res) => {
+app.post("/orders/delete", (req, res) => {
   const id = req.body.id;
   connection.query(
-    "delete from Customer where CustomerID=" + connection.escape(id),
+    "delete from OrderDetails where OrderID=" + connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         res.render("./error", {
@@ -290,25 +290,26 @@ app.post("/customer/delete", (req, res) => {
 });
 
 //Customer Update
-app.get("/customer/update", (req, res) => {
-  res.render("./customer/update");
+app.get("/orders/update", (req, res) => {
+  res.render("./orders/update");
 });
 
-app.post("/customer/update", (req, res) => {
+app.post("/orders/update", (req, res) => {
   const id = req.body.id;
-  const name = req.body.name;
-  const address = req.body.address;
-  const phone = req.body.phone;
+  const cid = req.body.cid;
+  const pid = req.body.pid;
+  const date = req.body.date;
+  const price = req.body.price;
   let message = "Success";
   connection.query(
-    "update Customer set CustomerName=" +
-    connection.escape(name) +
-    ", CustomerAddress=" +
-    connection.escape(address) +
-    ", PhoneNo=" +
-    connection.escape(phone) +
-    "where CustomerID=" +
-    connection.escape(id),
+    "update OrderDetails set CustomerID=" +
+      connection.escape(cid) +
+      ", OrderDate=" +
+      connection.escape(date) +
+      ", Price=" +
+      connection.escape(price) +
+      "where OrderID=" +
+      connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
@@ -316,7 +317,7 @@ app.post("/customer/update", (req, res) => {
         console.log(error);
       }
       console.log("Result", result);
-      res.redirect("/customer/");
+      res.redirect("/orders/");
     }
   );
 });
@@ -365,16 +366,16 @@ app.post("/customerModels/create", (req, res) => {
 
 app.get("/customerModels/delete", (req, res) => {
   res.render("./customerModels/delete");
-})
+});
 
 app.post("/customerModels/delete", (req, res) => {
   const id = req.body.id;
   const ModelID = req.body.ModelID;
   connection.query(
     "delete from CustomerModels where CustomerID=" +
-    connection.escape(id) +
-    "and ModelID=" +
-    connection.escape(ModelID),
+      connection.escape(id) +
+      "and ModelID=" +
+      connection.escape(ModelID),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
@@ -385,7 +386,7 @@ app.post("/customerModels/delete", (req, res) => {
       res.redirect("/customerModels/");
     }
   );
-})
+});
 
 //______________Parts_______________________//
 
@@ -580,9 +581,9 @@ app.post("/model/update", (req, res) => {
 
   connection.query(
     "update Model set ModelName=" +
-    connection.escape(ModelName) +
-    "where ModelID=" +
-    connection.escape(ModelID),
+      connection.escape(ModelName) +
+      "where ModelID=" +
+      connection.escape(ModelID),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         message = "Error";
