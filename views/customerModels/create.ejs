@@ -1,5 +1,5 @@
 <%- include("../partials/header.ejs") -%>
-<form action="/customer/create" method="POST">
+<form action="/customerModels/create" method="POST">
   <div class="padding row form-group">
     <div class="col-md-4">
       <label for="id">
@@ -10,26 +10,10 @@
   </div>
   <div class="padding row form-group">
     <div class="col-md-4">
-      <label for="Name">
-        <h3>Name</h3>
-      </label>
-      <input type="text" class="form-control" id="name" name="name" />
-    </div>
-  </div>
-  <div class="padding row form-group">
-    <div class="col-md-4">
-      <label for="address">
-        <h3>Address</h3>
-      </label>
-      <input type="text" class="form-control" id="address" name="address" />
-    </div>
-  </div>
-  <div class="padding row form-group">
-    <div class="col-md-4">
       <label for="phone">
-        <h3>Phone Number</h3>
+        <h3>Model ID</h3>
       </label>
-      <input type="number" class="form-control" id="phone" name="phone" />
+      <input type="number" class="form-control" id="ModelID" name="ModelID" />
     </div>
   </div>
   <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>

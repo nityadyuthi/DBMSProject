@@ -1,0 +1,22 @@
+<%- include("../partials/header") -%>
+<form action="/parts/create" method="POST">
+    <div class="padding row form-group">
+        <div class="col-md-4">
+            <label for="id">
+                <h3>Model ID</h3>
+            </label>
+            <input type="text" class="form-control" id="modelID" name="modelID" />
+        </div>
+    </div>
+    <div class="padding row form-group">
+        <div class="col-md-4">
+            <label for="phone">
+                <h3>Part ID</h3>
+            </label>
+            <input type="text" class="form-control" id="PartID" name="PartID" />
+        </div>
+    </div>
+    <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>
+</form>
+<%- include("../partials/footer.ejs") -%>
+<%- include("../partials/footer") -%>

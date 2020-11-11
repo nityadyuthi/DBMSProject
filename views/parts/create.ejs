@@ -1,0 +1,46 @@
+<%- include("../partials/header") -%>
+<form action="/parts/create" method="POST">
+    <div class="padding row form-group">
+        <div class="col-md-4">
+            <label for="id">
+                <h3>Part ID</h3>
+            </label>
+            <input type="text" class="form-control" id="id" name="id" />
+        </div>
+    </div>
+    <div class="padding row form-group">
+        <div class="col-md-4">
+            <label for="phone">
+                <h3>Part Name</h3>
+            </label>
+            <input type="text" class="form-control" id="PartName" name="PartName" />
+        </div>
+    </div>
+    <div class="padding row form-group">
+        <div class="col-md-4">
+            <label for="phone">
+                <h3>Part Type Number</h3>
+            </label>
+            <input type="number" class="form-control" id="PartTypeNo" name="PartTypeNo" />
+        </div>
+    </div>
+    <div class="padding row form-group">
+        <div class="col-md-4">
+            <label for="phone">
+                <h3>Stock</h3>
+            </label>
+            <input type="number" class="form-control" id="stock" name="stock" />
+        </div>
+    </div>
+    <div class="padding row form-group">
+        <div class="col-md-4">
+            <label for="phone">
+                <h3>Price</h3>
+            </label>
+            <input type="number" class="form-control" id="price" name="price" />
+        </div>
+    </div>
+    <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>
+</form>
+<%- include("../partials/footer.ejs") -%>
+<%- include("../partials/footer") -%>
