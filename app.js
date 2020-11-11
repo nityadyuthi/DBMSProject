@@ -128,7 +128,7 @@ app.get("/home", function (req, res) {
   res.render("home");
 });
 
-//_________________________________Customer__________________________________________//
+//_________________________________CUSTOMER__________________________________________//
 //Customer Home
 app.get("/customer/", (req, res) => {
   connection.query(
@@ -225,18 +225,6 @@ app.post("/customer/update", (req, res) => {
 });
 
 //_____________________________________________________ORDERS____________________________________________________________//
-
-// app.get("/orders/", (req, res) => {
-//   connection.query(
-//     "select OD.OrderID, C.CustomerName, OD.OrderDate, OD.Price, P.PartName from OrderDetails OD, Customer C, OrderParts OP, Parts P where OD.CustomerID = C.CustomerID and OD.OrderID = OP.OrderID and OP.PartID=P.PartID",
-//     (error, result, fields) => {
-//       if (error) throw error;
-//       console.log(result);
-//       res.render("./orders/index", { data: result, message: "Welcome" });
-//     }
-//   );
-// });
-
 app.get("/orders/", (req, res) => {
   connection.query("select * from OrderDetails", (error, result, fields) => {
     if (error) throw error;
@@ -268,7 +256,7 @@ app.post("/orders/create", (req, res) => {
   );
 });
 
-//Customer Delete
+//Order Delete
 app.get("/orders/delete", (req, res) => {
   res.render("./orders/delete");
 });
@@ -289,7 +277,7 @@ app.post("/orders/delete", (req, res) => {
   );
 });
 
-//Customer Update
+//Order Update
 app.get("/orders/update", (req, res) => {
   res.render("./orders/update");
 });
@@ -323,7 +311,7 @@ app.post("/orders/update", (req, res) => {
 });
 
 //______________Customer Models_______________________//
-
+//Customer Models Home
 app.get("/customerModels", (req, res) => {
   connection.query(
     "select CustomerID,ModelID from CustomerModels",
@@ -338,6 +326,7 @@ app.get("/customerModels", (req, res) => {
   );
 });
 
+//Customer Models Create
 app.get("/customerModels/create", (req, res) => {
   res.render("./customerModels/create");
 });
@@ -364,21 +353,21 @@ app.post("/customerModels/create", (req, res) => {
   );
 });
 
+//Customer Models Delete
 app.get("/customerModels/delete", (req, res) => {
   res.render("./customerModels/delete");
 });
 
 app.post("/customerModels/delete", (req, res) => {
   const id = req.body.id;
-  const ModelID = req.body.ModelID;
+  const mid = req.body.mid;
   connection.query(
     "delete from CustomerModels where CustomerID=" +
       connection.escape(id) +
       "and ModelID=" +
-      connection.escape(ModelID),
+      connection.escape(mid),
     (error, result) => {
       if (error || result.affectedRows === 0) {
-        console.log("Hi");
         message = "Error";
         console.log(error);
       }
@@ -499,7 +488,10 @@ app.post("/modelParts/delete", (req, res) => {
   const PartID = req.body.PartID;
   const ModelID = req.body.ModelID;
   connection.query(
-    "delete from PartsOfModel where PartID=" + connection.escape(PartID) + "and ModelId=" + connection.escape(ModelID),
+    "delete from PartsOfModel where PartID=" +
+      connection.escape(PartID) +
+      "and ModelId=" +
+      connection.escape(ModelID),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         res.render("./error", {
