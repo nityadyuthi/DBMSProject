@@ -155,6 +155,14 @@ app.post("/customer/create", (req, res) => {
     [[id, name, address, ModelID, phone]],
     (error, result) => {
       if (error) {
+        if (error.errno === 1062) {
+          res.render("./error", {
+            message:
+              "There is already an entry with CustomerID= " +
+              id +
+              ". Enter Unique data",
+          });
+        }
         message = "Error";
       } else {
         res.redirect("/customer/");
@@ -207,40 +215,6 @@ app.post("/student/update", (req, res) => {
       }
       console.log(result);
       res.render("./student/index", { message: message });
-    }
-  );
-});
-
-//_____________________________________________________ORDERS____________________________________________________________//
-//Orders Home
-app.get("/orders/", (req, res) => {
-  connection.query(
-    "select O.OrderID, O.OrderDate, O.Price, C.CustomerName, P.PartName from OrderDetails O, Customer C, Parts P where O.CustomerID=C.CustomerID and O.PartId=P.PartID",
-    (error, result, fields) => {
-      if (error) throw error;
-      console.log(result);
-      res.render("./customer/index", { data: result, message: "Welcome" });
-    }
-  );
-});
-
-//Orders Create
-app.get("/orders/create", (req, res) => {
-  res.render("./orders/create");
-});
-
-app.post("/orders/create", (req, res) => {
-  const n = req.body.name;
-  const p = req.body.no;
-  let message = "Success";
-  connection.query(
-    "insert into Orders (sname, usn) values (?)",
-    [[n, p]],
-    (error, result) => {
-      if (error) {
-        message = "Error";
-      }
-      res.render("./orders/create", { message: message });
     }
   );
 });
