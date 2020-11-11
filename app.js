@@ -219,6 +219,40 @@ app.post("/student/update", (req, res) => {
   );
 });
 
+//_____________________________________________________ORDERS____________________________________________________________//
+//Orders Home
+app.get("/orders/", (req, res) => {
+  connection.query(
+    "select O.OrderID, O.OrderDate, O.Price, C.CustomerName, P.PartName from OrderDetails O, Customer C, Parts P where O.CustomerID=C.CustomerID and O.PartId=P.PartID",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result);
+      res.render("./customer/index", { data: result, message: "Welcome" });
+    }
+  );
+});
+
+//Orders Create
+app.get("/orders/create", (req, res) => {
+  res.render("./orders/create");
+});
+
+app.post("/orders/create", (req, res) => {
+  const n = req.body.name;
+  const p = req.body.no;
+  let message = "Success";
+  connection.query(
+    "insert into Orders (sname, usn) values (?)",
+    [[n, p]],
+    (error, result) => {
+      if (error) {
+        message = "Error";
+      }
+      res.render("./orders/create", { message: message });
+    }
+  );
+});
+
 //__________________MISCELLANEOUS_____________________//
 // About Route
 app.get("/about", function (req, res) {
