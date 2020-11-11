@@ -136,22 +136,26 @@ app.get("/customer/", (req, res) => {
 });
 
 //Student Create
-app.get("/student/create", (req, res) => {
-  res.render("./student/create");
+app.get("/customer/create", (req, res) => {
+  res.render("./customer/create");
 });
 
-app.post("/student/create", (req, res) => {
-  const n = req.body.name;
-  const p = req.body.no;
+app.post("/customer/create", (req, res) => {
+  const id = req.body.id;
+  const name = req.body.name;
+  const address = req.body.address;
+  const ModelID = req.body.deviceID;
+  const phone = req.body.phone;
   let message = "Success";
   connection.query(
-    "insert into Student (sname, usn) values (?)",
-    [[n, p]],
+    "insert into Customer (CustomerID, CustomerName, CustomerAddress, ModelID, PhoneNo) values (?)",
+    [[id, name, address, ModelID, phone]],
     (error, result) => {
       if (error) {
         message = "Error";
+      } else {
+        res.redirect("/customer/",);
       }
-      res.render("./student/create", { message: message });
     }
   );
 });
