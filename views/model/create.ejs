@@ -1,19 +1,19 @@
 <%- include("../partials/header") -%>
-<form action="/modelParts/create" method="POST">
+<form action="/model/create" method="POST">
     <div class="padding row form-group">
         <div class="col-md-4">
             <label for="id">
                 <h3>Model ID</h3>
             </label>
-            <input type="text" class="form-control" id="modelID" name="ModelID" />
+            <input type="text" class="form-control" id="ModelID" name="ModelID" />
         </div>
     </div>
     <div class="padding row form-group">
         <div class="col-md-4">
             <label for="phone">
-                <h3>Part ID</h3>
+                <h3>Model Name</h3>
             </label>
-            <input type="text" class="form-control" id="PartID" name="PartID" />
+            <input type="text" class="form-control" id="ModelName" name="ModelName" />
         </div>
     </div>
     <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>

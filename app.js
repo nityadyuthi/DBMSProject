@@ -381,7 +381,7 @@ app.post("/modelParts/create", (req, res) => {
 
   connection.query(
     "insert into PartsOfModel (ModelID, PartID) values (?)",
-    [[PartID, ModelID]],
+    [[ModelID, PartID]],
     (error, result) => {
       if (error) {
         console.log(error)
@@ -421,8 +421,68 @@ app.post("/parts/delete", (req, res) => {
   );
 });
 
+//______________Parts of Model_______________________//
 
+app.get("/model", (req, res) => {
+  connection.query(
+    "select ModelID, ModelName from Model",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result);
+      res.render("./model/index", { data: result, message: "Welcome" });
+    }
+  );
+})
 
+app.get("/model/create", (req, res) => {
+  res.render("./model/create");
+});
+
+app.post("/model/create", (req, res) => {
+  const ModelID = req.body.ModelID;
+  const ModelName = req.body.ModelName;
+
+  connection.query(
+    "insert into Model (ModelID, ModelName) values (?)",
+    [[ModelID, ModelName]],
+    (error, result) => {
+      if (error) {
+        console.log(error)
+        res.render("./error", {
+          message:
+            "There is already an entry with CustomerID= " +
+            PartID +
+            ". Enter Unique data",
+        });
+
+      } else {
+        res.redirect("/model/");
+      }
+    }
+  );
+});
+
+app.get("/model/delete", (req, res) => {
+  res.render("./model/delete");
+});
+
+app.post("/model/delete", (req, res) => {
+  const id = req.body.id;
+  connection.query(
+    "delete from Model where ModelID=" + connection.escape(id),
+    (error, result) => {
+      if (error || result.affectedRows === 0) {
+        res.render("./error", {
+          message:
+            "There is no entry with Part ID " + id,
+        });
+      } else {
+        res.redirect("/model/");
+      }
+
+    }
+  );
+});
 
 
 //__________________MISCELLANEOUS_____________________//
