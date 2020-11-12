@@ -1,17 +1,17 @@
 <%- include("../partials/header") -%>
-<h1>The Parts Table:</h1>
+<h1>The Parts of Model Table:</h1>
 <table class="styled-table">
     <thead>
         <tr>
-            <th>Model ID</th>
-            <th>Part ID</th>
+            <th>Model Name</th>
+            <th>Part Name</th>
         </tr>
     </thead>
     <tbody>
         <% data.forEach(row => { %>
         <tr>
-            <td><%= row.ModelID %></td>
-            <td><%= row.PartID %></td>
+            <td><%= row.ModelName %></td>
+            <td><%= row.PartName %></td>
         </tr>
         <% }); %>
     </tbody>

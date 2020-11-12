@@ -528,7 +528,7 @@ app.post("/parts/delete", (req, res) => {
 
 app.get("/modelParts", (req, res) => {
   connection.query(
-    "select ModelID, PartID from PartsOfModel",
+    "select distinct ModelName, PartName from PartsOfModel PM, Parts P, Model M where P.PartID=PM.PartID and M.ModelID=PM.ModelID",
     (error, result, fields) => {
       if (error) throw error;
       console.log(result);
@@ -538,12 +538,26 @@ app.get("/modelParts", (req, res) => {
 });
 
 app.get("/modelParts/create", (req, res) => {
-  res.render("./modelParts/create");
+  connection.query(
+    "select PartID,PartName from Parts",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result);
+      connection.query(
+        "select ModelID,ModelName from Model",
+        (error1, result1, fields1) => {
+          if (error1) throw error;
+          console.log(result);
+          res.render("./modelParts/create", { data: result, data1: result1 });
+        }
+      );
+    }
+  );
 });
 
 app.post("/modelParts/create", (req, res) => {
   const PartID = req.body.PartID;
-  const ModelID = req.body.ModelID;
+  const ModelID = req.body.modelID;
 
   connection.query(
     "insert into PartsOfModel (ModelID, PartID) values (?)",
@@ -565,12 +579,19 @@ app.post("/modelParts/create", (req, res) => {
 });
 
 app.get("/modelParts/delete", (req, res) => {
-  res.render("./modelParts/delete");
+  connection.query(
+    "select distinct ModelName, PM.ModelID, PM.PartID, PartName from PartsOfModel PM, Parts P, Model M where P.PartID=PM.PartID and M.ModelID=PM.ModelID",
+    (error, result, fields) => {
+      if (error) throw error;
+      res.render("./modelParts/delete", { data: result });
+    }
+  );
 });
 
 app.post("/modelParts/delete", (req, res) => {
   const PartID = req.body.PartID;
   const ModelID = req.body.ModelID;
+  console.log("Hello")
   connection.query(
     "delete from PartsOfModel where PartID=" +
     connection.escape(PartID) +
@@ -579,7 +600,7 @@ app.post("/modelParts/delete", (req, res) => {
     (error, result) => {
       if (error || result.affectedRows === 0) {
         res.render("./error", {
-          message: "There is no entry with Part ID " + id,
+          message: "There is no entry with Part ID " + PartID,
         });
       } else {
         res.redirect("/modelParts/");
