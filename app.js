@@ -235,7 +235,6 @@ app.post("/customer/update", (req, res) => {
 app.get("/orders/", (req, res) => {
   connection.query("select OrderID,OrderDate,Price,CustomerName from OrderDetails O,Customer C where O.CustomerID=C.CustomerID", (error, result, fields) => {
     if (error) throw error;
-    console.log(result);
     res.render("./orders/index", { data: result, message: "Welcome" });
   });
 });
@@ -680,7 +679,7 @@ app.post("/model/update", (req, res) => {
 
 app.get("/orderParts", (req, res) => {
   connection.query(
-    "select OrderID, PartID from OrderParts",
+    "select OrderID, O.PartID, PartName from OrderParts O, Parts P where O.PartId=P.PartID",
     (error, result, fields) => {
       if (error) throw error;
       console.log(result);
@@ -690,7 +689,21 @@ app.get("/orderParts", (req, res) => {
 });
 
 app.get("/orderParts/create", (req, res) => {
-  res.render("./orderParts/create");
+  connection.query(
+    "select OrderID from OrderDetails",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result);
+      connection.query(
+        "select PartID,PartName from Parts",
+        (error1, result1, fields1) => {
+          if (error1) throw error;
+          console.log(result);
+          res.render("./orderParts/create", { data: result, data1: result1 });
+        }
+      );
+    }
+  );
 });
 
 app.post("/orderParts/create", (req, res) => {
@@ -717,7 +730,14 @@ app.post("/orderParts/create", (req, res) => {
 });
 
 app.get("/orderParts/delete", (req, res) => {
-  res.render("./orderParts/delete");
+  connection.query(
+    "select OrderID, O.PartID, PartName from OrderParts O, Parts P where O.PartId=P.PartID",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result);
+      res.render("./orderParts/delete", { data: result, message: "Welcome" });
+    }
+  );
 });
 
 app.post("/orderParts/delete", (req, res) => {

@@ -5,15 +5,29 @@
             <label for="OrderID">
                 <h3>Order ID</h3>
             </label>
-            <input type="number" class="form-control" id="OrderID" name="OrderID" />
+            <h4>
+                <select class="btn btn-secondary white-text dropdown-toggle" name="OrderID" id="OrderID">
+                    <% for (const i in data) { %>
+                    <option class="dropdown-item white-text font-semibold" value="<%= data[i].OrderID %>">
+                        <%= data[i].OrderID %> </option>
+                    <% } %>
+                </select>
+            </h4>
         </div>
     </div>
     <div class="padding row form-group">
         <div class="col-md-4">
             <label for="PartID">
-                <h3>Part ID</h3>
+                <h3>Part Name</h3>
             </label>
-            <input type="number" class="form-control" id="PartID" name="PartID" />
+            <h4>
+                <select class="btn btn-secondary white-text dropdown-toggle" name="PartID" id="PartID">
+                    <% for (const i in data1) { %>
+                    <option class="dropdown-item white-text font-semibold" value="<%= data1[i].PartID %>">
+                        <%= data1[i].PartName %> </option>
+                    <% } %>
+                </select>
+            </h4>
         </div>
     </div>
     <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>

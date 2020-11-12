@@ -4,14 +4,14 @@
     <thead>
         <tr>
             <th>Order ID</th>
-            <th>Part ID</th>
+            <th>Part Name</th>
         </tr>
     </thead>
     <tbody>
         <% data.forEach(row => { %>
         <tr>
             <td><%= row.OrderID %></td>
-            <td><%= row.PartID %></td>
+            <td><%= row.PartName %></td>
         </tr>
         <% }); %>
     </tbody>
