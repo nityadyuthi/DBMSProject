@@ -3,22 +3,34 @@
   <div class="padding row form-group">
     <div class="col-md-4">
       <label for="id">
-        <h3>Customer ID</h3>
+        <h3>Customer Name</h3>
       </label>
-      <input type="text" class="form-control" id="id" name="id" />
+      <h5>
+        <select class="btn btn-secondary white-text dropdown-toggle" name="id" id="id">
+          <% for (const i in data) { %>
+          <option class="dropdown-item white-text font-semibold" value="<%= data[i].CustomerID %>">
+            <%= data[i].CustomerName %> </option>
+          <% } %>
+        </select>
+      </h5>
     </div>
   </div>
   <div class="padding row form-group">
     <div class="col-md-4">
-      <label for="phone">
-        <h3>Model ID</h3>
+      <label for="ModelID">
+        <h3>Model Name</h3>
       </label>
-      <input type="number" class="form-control" id="ModelID" name="ModelID" />
+      <h5>
+        <select class="btn btn-secondary white-text dropdown-toggle" name="ModelID" id="ModelID">
+          <% for (const i in data1) { %>
+          <option class="dropdown-item white-text font-semibold" value="<%= data1[i].ModelID %>">
+            <%= data1[i].ModelName %> </option>
+          <% } %>
+        </select>
+      </h5>
     </div>
   </div>
   <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>
 </form>
-<a href="/customerModels/" class="padding btn btn-lg btn-primary"
-  >Back to the Customer Models Table</a
->
+<a href="/customerModels/" class="padding btn btn-lg btn-primary">Back to the Customer Models Table</a>
 <%- include("../partials/footer.ejs") -%>

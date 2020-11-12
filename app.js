@@ -33,14 +33,14 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(
-  "mongodb+srv://dyuthi:root@theuserdb.jf6qg.mongodb.net/userDB?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  }
-);
+// mongoose.connect(
+//   "mongodb+srv://dyuthi:root@theuserdb.jf6qg.mongodb.net/userDB?retryWrites=true&w=majority",
+//   {
+//     useNewUrlParser: true,
+//     useCreateIndex: true,
+//     useUnifiedTopology: true,
+//   }
+// );
 
 const mongooseConnection = mongoose.connection;
 
@@ -173,7 +173,14 @@ app.post("/customer/create", (req, res) => {
 
 //Customer Delete
 app.get("/customer/delete", (req, res) => {
-  res.render("./customer/delete");
+  connection.query("select CustomerID,CustomerName from Customer", (error, result, fields) => {
+    if (error) throw error;
+    result.forEach(ele => {
+      console.log(ele.CustomerID);
+      console.log(ele.CustomerName)
+    });
+    res.render("./customer/delete", { data: result });
+  });
 });
 
 app.post("/customer/delete", (req, res) => {
@@ -300,7 +307,6 @@ app.post("/orders/update", (req, res) => {
     connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
-        console.log("Hi");
         message = "Error";
         console.log(error);
       }
@@ -314,10 +320,9 @@ app.post("/orders/update", (req, res) => {
 //Customer Models Home
 app.get("/customerModels", (req, res) => {
   connection.query(
-    "select CustomerID,ModelID from CustomerModels",
+    "select distinct CustomerName,ModelName from CustomerModels CM, Customer C, Model M where CM.CustomerID=C.CustomerID and M.ModelID=CM.ModelID",
     (error, result, fields) => {
       if (error) throw error;
-      console.log(result);
       res.render("./customerModels/index", {
         data: result,
         message: "Welcome",
@@ -328,7 +333,13 @@ app.get("/customerModels", (req, res) => {
 
 //Customer Models Create
 app.get("/customerModels/create", (req, res) => {
-  res.render("./customerModels/create");
+  connection.query("select CustomerID, CustomerName from Customer", (error, result, fields) => {
+    if (error) throw error;
+    connection.query("select ModelID, ModelName from Model", (error1, result1, fields1) => {
+      if (error) throw error;
+      res.render("./customerModels/create", { data: result, data1: result1 });
+    });
+  });
 });
 
 app.post("/customerModels/create", (req, res) => {
@@ -355,7 +366,17 @@ app.post("/customerModels/create", (req, res) => {
 
 //Customer Models Delete
 app.get("/customerModels/delete", (req, res) => {
-  res.render("./customerModels/delete");
+  connection.query(
+    "select distinct CustomerName, CM.CustomerID, ModelName, CM.ModelID from CustomerModels CM, Customer C, Model M where CM.CustomerID=C.CustomerID and M.ModelID=CM.ModelID",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result)
+      res.render("./customerModels/delete", {
+        data: result,
+        message: "Welcome",
+      });
+    }
+  );
 });
 
 app.post("/customerModels/delete", (req, res) => {
@@ -368,11 +389,11 @@ app.post("/customerModels/delete", (req, res) => {
     connection.escape(mid),
     (error, result) => {
       if (error || result.affectedRows === 0) {
-        message = "Error";
-        console.log(error);
+        console.log(result)
+        res.render("./error", { message: "Error!" })
+      } else {
+        res.redirect("/customerModels/");
       }
-      console.log("Result", result);
-      res.redirect("/customerModels/");
     }
   );
 });
@@ -381,7 +402,7 @@ app.post("/customerModels/delete", (req, res) => {
 
 app.get("/parts", (req, res) => {
   connection.query(
-    "select PartID,PartName,PartTypeNo,Stock,Price from Parts",
+    "select P.PartID,PartName,PartTypeName,Stock,Price from Parts P, PartType PT where P.PartTypeNo=PT.PartTypeNo",
     (error, result, fields) => {
       if (error) throw error;
       console.log(result);
@@ -391,7 +412,17 @@ app.get("/parts", (req, res) => {
 });
 
 app.get("/parts/create", (req, res) => {
-  res.render("./parts/create");
+  connection.query(
+    "select PartTypeNo,PartTypeName from PartType",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result)
+      res.render("./parts/create", {
+        data: result,
+        message: "Welcome",
+      });
+    }
+  );
 });
 
 app.post("/parts/create", (req, res) => {
@@ -420,8 +451,61 @@ app.post("/parts/create", (req, res) => {
   );
 });
 
+app.get("/parts/update", (req, res) => {
+  connection.query(
+    "select PartTypeNo,PartTypeName from PartType",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result)
+      res.render("./parts/update", {
+        data: result,
+        message: "Welcome",
+      });
+    }
+  );
+});
+
+app.post("/parts/update", (req, res) => {
+  const PartID = req.body.id;
+  const PartName = req.body.PartName;
+  const PartTypeNo = req.body.PartTypeNo;
+  const stock = req.body.stock;
+  const price = req.body.price;
+
+  connection.query(
+    "update Parts set PartName=" +
+    connection.escape(PartName) +
+    ", PartTypeNo=" +
+    connection.escape(PartTypeNo) +
+    ", stock=" +
+    connection.escape(stock) +
+    ", price=" +
+    connection.escape(price) +
+    "where PartID=" +
+    connection.escape(PartID),
+    (error, result) => {
+      if (error || result.affectedRows === 0) {
+        message = "Error";
+        console.log(error);
+      }
+      console.log("Result", result);
+      res.redirect("/parts/");
+    }
+  );
+});
+
 app.get("/parts/delete", (req, res) => {
-  res.render("./parts/delete");
+  connection.query(
+    "select PartID,PartName from Parts",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result)
+      res.render("./parts/delete", {
+        data: result,
+        message: "Welcome",
+      });
+    }
+  );
 });
 
 app.post("/parts/delete", (req, res) => {

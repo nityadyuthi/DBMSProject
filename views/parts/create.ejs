@@ -19,9 +19,16 @@
     <div class="padding row form-group">
         <div class="col-md-4">
             <label for="phone">
-                <h3>Part Type Number</h3>
+                <h3>Part Type Name</h3>
             </label>
-            <input type="number" class="form-control" id="PartTypeNo" name="PartTypeNo" />
+            <h4>
+                <select class="btn btn-secondary white-text dropdown-toggle" name="PartTypeNo" id="PartTypeNo">
+                    <% for (const i in data) { %>
+                    <option class="dropdown-item white-text font-semibold" value="<%= data[i].PartTypeNo %>">
+                        <%= data[i].PartTypeName %> </option>
+                    <% } %>
+                </select>
+            </h4>
         </div>
     </div>
     <div class="padding row form-group">

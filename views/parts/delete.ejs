@@ -3,9 +3,16 @@
     <div class="padding row form-group">
         <div class="col-md-4">
             <label for="id">
-                <h3>Part ID</h3>
+                <h3>Part Name</h3>
             </label>
-            <input type="text" class="form-control" id="id" name="id" />
+            <h4>
+                <select class="btn btn-secondary white-text dropdown-toggle" name="id" id="id">
+                    <% for (const i in data) { %>
+                    <option class="dropdown-item white-text font-semibold" value="<%= data[i].PartID %>">
+                        <%= data[i].PartName %> </option>
+                    <% } %>
+                </select>
+            </h4>
         </div>
     </div>
     <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>
