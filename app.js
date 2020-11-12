@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose"); //salt and hash passwords
+const { result } = require("lodash");
 
 const app = express();
 
@@ -173,14 +174,17 @@ app.post("/customer/create", (req, res) => {
 
 //Customer Delete
 app.get("/customer/delete", (req, res) => {
-  connection.query("select CustomerID,CustomerName from Customer", (error, result, fields) => {
-    if (error) throw error;
-    result.forEach(ele => {
-      console.log(ele.CustomerID);
-      console.log(ele.CustomerName)
-    });
-    res.render("./customer/delete", { data: result });
-  });
+  connection.query(
+    "select CustomerID,CustomerName from Customer",
+    (error, result, fields) => {
+      if (error) throw error;
+      result.forEach((ele) => {
+        console.log(ele.CustomerID);
+        console.log(ele.CustomerName);
+      });
+      res.render("./customer/delete", { data: result });
+    }
+  );
 });
 
 app.post("/customer/delete", (req, res) => {
@@ -212,13 +216,13 @@ app.post("/customer/update", (req, res) => {
   let message = "Success";
   connection.query(
     "update Customer set CustomerName=" +
-    connection.escape(name) +
-    ", CustomerAddress=" +
-    connection.escape(address) +
-    ", PhoneNo=" +
-    connection.escape(phone) +
-    "where CustomerID=" +
-    connection.escape(id),
+      connection.escape(name) +
+      ", CustomerAddress=" +
+      connection.escape(address) +
+      ", PhoneNo=" +
+      connection.escape(phone) +
+      "where CustomerID=" +
+      connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
@@ -233,19 +237,25 @@ app.post("/customer/update", (req, res) => {
 
 //_____________________________________________________ORDERS____________________________________________________________//
 app.get("/orders/", (req, res) => {
-  connection.query("select OrderID,OrderDate,Price,CustomerName from OrderDetails O,Customer C where O.CustomerID=C.CustomerID", (error, result, fields) => {
-    if (error) throw error;
-    res.render("./orders/index", { data: result, message: "Welcome" });
-  });
+  connection.query(
+    "select OrderID,OrderDate,Price,CustomerName from OrderDetails O,Customer C where O.CustomerID=C.CustomerID",
+    (error, result, fields) => {
+      if (error) throw error;
+      res.render("./orders/index", { data: result, message: "Welcome" });
+    }
+  );
 });
 
 //Order Create
 app.get("/orders/create", (req, res) => {
-  connection.query("select CustomerID,CustomerName from Customer", (error, result, fields) => {
-    if (error) throw error;
-    console.log(result);
-    res.render("./orders/create", { data: result });
-  });
+  connection.query(
+    "select CustomerID,CustomerName from Customer",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result);
+      res.render("./orders/create", { data: result });
+    }
+  );
 });
 
 app.post("/orders/create", (req, res) => {
@@ -290,7 +300,6 @@ app.post("/orders/delete", (req, res) => {
   );
 });
 
-
 //______________Customer Models_______________________//
 //Customer Models Home
 app.get("/customerModels", (req, res) => {
@@ -308,13 +317,22 @@ app.get("/customerModels", (req, res) => {
 
 //Customer Models Create
 app.get("/customerModels/create", (req, res) => {
-  connection.query("select CustomerID, CustomerName from Customer", (error, result, fields) => {
-    if (error) throw error;
-    connection.query("select ModelID, ModelName from Model", (error1, result1, fields1) => {
+  connection.query(
+    "select CustomerID, CustomerName from Customer",
+    (error, result, fields) => {
       if (error) throw error;
-      res.render("./customerModels/create", { data: result, data1: result1 });
-    });
-  });
+      connection.query(
+        "select ModelID, ModelName from Model",
+        (error1, result1, fields1) => {
+          if (error) throw error;
+          res.render("./customerModels/create", {
+            data: result,
+            data1: result1,
+          });
+        }
+      );
+    }
+  );
 });
 
 app.post("/customerModels/create", (req, res) => {
@@ -345,7 +363,7 @@ app.get("/customerModels/delete", (req, res) => {
     "select distinct CustomerName, CM.CustomerID, ModelName, CM.ModelID from CustomerModels CM, Customer C, Model M where CM.CustomerID=C.CustomerID and M.ModelID=CM.ModelID",
     (error, result, fields) => {
       if (error) throw error;
-      console.log(result)
+      console.log(result);
       res.render("./customerModels/delete", {
         data: result,
         message: "Welcome",
@@ -359,13 +377,13 @@ app.post("/customerModels/delete", (req, res) => {
   const mid = req.body.mid;
   connection.query(
     "delete from CustomerModels where CustomerID=" +
-    connection.escape(id) +
-    "and ModelID=" +
-    connection.escape(mid),
+      connection.escape(id) +
+      "and ModelID=" +
+      connection.escape(mid),
     (error, result) => {
       if (error || result.affectedRows === 0) {
-        console.log(result)
-        res.render("./error", { message: "Error!" })
+        console.log(result);
+        res.render("./error", { message: "Error!" });
       } else {
         res.redirect("/customerModels/");
       }
@@ -391,7 +409,7 @@ app.get("/parts/create", (req, res) => {
     "select PartTypeNo,PartTypeName from PartType",
     (error, result, fields) => {
       if (error) throw error;
-      console.log(result)
+      console.log(result);
       res.render("./parts/create", {
         data: result,
         message: "Welcome",
@@ -431,7 +449,7 @@ app.get("/parts/update", (req, res) => {
     "select PartTypeNo,PartTypeName from PartType",
     (error, result, fields) => {
       if (error) throw error;
-      console.log(result)
+      console.log(result);
       res.render("./parts/update", {
         data: result,
         message: "Welcome",
@@ -449,15 +467,15 @@ app.post("/parts/update", (req, res) => {
 
   connection.query(
     "update Parts set PartName=" +
-    connection.escape(PartName) +
-    ", PartTypeNo=" +
-    connection.escape(PartTypeNo) +
-    ", stock=" +
-    connection.escape(stock) +
-    ", price=" +
-    connection.escape(price) +
-    "where PartID=" +
-    connection.escape(PartID),
+      connection.escape(PartName) +
+      ", PartTypeNo=" +
+      connection.escape(PartTypeNo) +
+      ", stock=" +
+      connection.escape(stock) +
+      ", price=" +
+      connection.escape(price) +
+      "where PartID=" +
+      connection.escape(PartID),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         message = "Error";
@@ -474,7 +492,7 @@ app.get("/parts/delete", (req, res) => {
     "select PartID,PartName from Parts",
     (error, result, fields) => {
       if (error) throw error;
-      console.log(result)
+      console.log(result);
       res.render("./parts/delete", {
         data: result,
         message: "Welcome",
@@ -566,12 +584,12 @@ app.get("/modelParts/delete", (req, res) => {
 app.post("/modelParts/delete", (req, res) => {
   const PartID = req.body.PartID;
   const ModelID = req.body.ModelID;
-  console.log("Hello")
+  console.log("Hello");
   connection.query(
     "delete from PartsOfModel where PartID=" +
-    connection.escape(PartID) +
-    "and ModelId=" +
-    connection.escape(ModelID),
+      connection.escape(PartID) +
+      "and ModelId=" +
+      connection.escape(ModelID),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         res.render("./error", {
@@ -661,9 +679,9 @@ app.post("/model/update", (req, res) => {
 
   connection.query(
     "update Model set ModelName=" +
-    connection.escape(ModelName) +
-    "where ModelID=" +
-    connection.escape(ModelID),
+      connection.escape(ModelName) +
+      "where ModelID=" +
+      connection.escape(ModelID),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         message = "Error";
@@ -709,26 +727,58 @@ app.get("/orderParts/create", (req, res) => {
 app.post("/orderParts/create", (req, res) => {
   const PartID = req.body.PartID;
   const OrderID = req.body.OrderID;
-
   connection.query(
-    "insert into OrderParts (OrderID, PartID) values (?)",
-    [[OrderID, PartID]],
-    (error, result) => {
-      if (error) {
-        console.log(error);
-        res.render("./error", {
-          message:
-            "There is already an entry with CustomerID= " +
-            PartID +
-            ". Enter Unique data",
-        });
+    "SELECT P.Stock, P.Price from Parts P, OrderParts OP WHERE P.PartID=OP.PartID AND OP.PartID=" +
+      connection.escape(PartID),
+    (error, stock, fields) => {
+      if (error) throw error;
+      if (stock[0].Stock >= 1) {
+        connection.query(
+          "UPDATE Parts SET Stock=" +
+            connection.escape(stock[0].Stock - 1) +
+            " WHERE PartID=" +
+            connection.escape(PartID),
+          (error, result, fields) => {
+            if (error) throw error;
+          }
+        );
+        connection.query(
+          "SELECT Price FROM OrderDetails WHERE OrderID=" +
+            connection.escape(OrderID),
+          (error, totalBill) => {
+            connection.query(
+              "UPDATE OrderDetails SET Price=" +
+                connection.escape(totalBill[0].Price + stock[0].Price) +
+                " WHERE OrderID=" +
+                connection.escape(OrderID)
+            );
+          }
+        );
+        connection.query(
+          "insert into OrderParts (OrderID, PartID) values (?)",
+          [[OrderID, PartID]],
+          (error, result) => {
+            if (error) {
+              console.log(error);
+              res.render("./error", {
+                message:
+                  "There is already an entry with CustomerID= " +
+                  PartID +
+                  ". Enter Unique data",
+              });
+            } else {
+              res.redirect("/orderParts/");
+            }
+          }
+        );
       } else {
-        res.redirect("/orderParts/");
+        res.render("error", { message: "No stock" });
       }
     }
   );
 });
 
+//Order Parts Delete
 app.get("/orderParts/delete", (req, res) => {
   connection.query(
     "select OrderID, O.PartID, PartName from OrderParts O, Parts P where O.PartId=P.PartID",
@@ -743,19 +793,41 @@ app.get("/orderParts/delete", (req, res) => {
 app.post("/orderParts/delete", (req, res) => {
   const PartID = req.body.PartID;
   const OrderID = req.body.OrderID;
+  //here
   connection.query(
-    "delete from OrderParts where PartID=" +
-    connection.escape(PartID) +
-    "and OrderID=" +
-    connection.escape(OrderID),
-    (error, result) => {
-      if (error || result.affectedRows === 0) {
-        res.render("./error", {
-          message: "There is no entry with Part ID " + PartID,
-        });
-      } else {
-        res.redirect("/orderParts/");
-      }
+    "SELECT P.Stock, P.Price from Parts P, OrderParts OP WHERE P.PartID=OP.PartID AND OP.PartID=" +
+      connection.escape(PartID),
+    (error, stock, fields) => {
+      if (error) throw error;
+      connection.query(
+        "UPDATE Parts SET Stock=" +
+          connection.escape(stock[0].Stock + 1) +
+          " WHERE PartID=" +
+          connection.escape(PartID),
+        (error, result, fields) => {
+          if (error) throw error;
+        }
+      );
+      connection.query(
+        "SELECT Price FROM OrderDetails WHERE OrderID=" +
+          connection.escape(OrderID),
+        (error, totalBill) => {
+          connection.query(
+            "UPDATE OrderDetails SET Price=" +
+              connection.escape(totalBill[0].Price - stock[0].Price) +
+              " WHERE OrderID=" +
+              connection.escape(OrderID)
+          );
+        }
+      );
+
+      connection.query(
+        "delete from OrderParts where PartID=" +
+          connection.escape(PartID) +
+          "and OrderID=" +
+          connection.escape(OrderID)
+      );
+      res.redirect("/orderParts/");
     }
   );
 });
