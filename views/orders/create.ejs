@@ -3,21 +3,24 @@
   <div class="padding row form-group">
     <div class="col-md-4">
       <label for="id">
-        <h3>Customer ID</h3>
+        <h3>Customer Name</h3>
       </label>
-      <input type="text" class="form-control" id="id" name="id" />
+      <h4>
+        <select class="btn btn-secondary white-text dropdown-toggle" name="id" id="id">
+          <% for (const i in data) { %>
+          <option class="dropdown-item white-text font-semibold" value="<%= data[i].CustomerID %>">
+            <%= data[i].CustomerName %> </option>
+          <% } %>
+        </select>
+      </h4>
     </div>
   </div>
   <div class="padding row form-group">
     <div class="col-md-4">
-      <label for="date"><h3>Date and Time of Order</h3></label>
+      <label for="date">
+        <h3>Date and Time of Order</h3>
+      </label>
       <input type="datetime-local" class="form-control" id="date" name="date" />
-    </div>
-  </div>
-  <div class="padding row form-group">
-    <div class="col-md-4">
-      <label for="price"><h3>Total Price</h3></label>
-      <input type="number" class="form-control" id="price" name="price" />
     </div>
   </div>
   <button type="submit" class="padding btn btn-lg btn-primary">Go!</button>

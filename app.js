@@ -233,7 +233,7 @@ app.post("/customer/update", (req, res) => {
 
 //_____________________________________________________ORDERS____________________________________________________________//
 app.get("/orders/", (req, res) => {
-  connection.query("select * from OrderDetails", (error, result, fields) => {
+  connection.query("select OrderID,OrderDate,Price,CustomerName from OrderDetails O,Customer C where O.CustomerID=C.CustomerID", (error, result, fields) => {
     if (error) throw error;
     console.log(result);
     res.render("./orders/index", { data: result, message: "Welcome" });
@@ -242,16 +242,19 @@ app.get("/orders/", (req, res) => {
 
 //Order Create
 app.get("/orders/create", (req, res) => {
-  res.render("./orders/create");
+  connection.query("select CustomerID,CustomerName from Customer", (error, result, fields) => {
+    if (error) throw error;
+    console.log(result);
+    res.render("./orders/create", { data: result });
+  });
 });
 
 app.post("/orders/create", (req, res) => {
   const id = req.body.id;
   const date = req.body.date;
-  const price = req.body.price;
   connection.query(
-    "insert into OrderDetails (CustomerID, OrderDate, Price) values (?)",
-    [[id, date, price]],
+    "insert into OrderDetails (CustomerID, OrderDate) values (?)",
+    [[id, date]],
     (error, result) => {
       if (error) {
         console.log("Error:", error);
@@ -265,7 +268,11 @@ app.post("/orders/create", (req, res) => {
 
 //Order Delete
 app.get("/orders/delete", (req, res) => {
-  res.render("./orders/delete");
+  connection.query("select * from OrderDetails", (error, result, fields) => {
+    if (error) throw error;
+    console.log(result);
+    res.render("./orders/delete", { data: result });
+  });
 });
 
 app.post("/orders/delete", (req, res) => {
@@ -278,43 +285,12 @@ app.post("/orders/delete", (req, res) => {
           message: "There is no entry with Customer ID " + id,
         });
       } else {
-        res.redirect("/customer/");
+        res.redirect("/orders/");
       }
     }
   );
 });
 
-//Order Update
-app.get("/orders/update", (req, res) => {
-  res.render("./orders/update");
-});
-
-app.post("/orders/update", (req, res) => {
-  const id = req.body.id;
-  const cid = req.body.cid;
-  const pid = req.body.pid;
-  const date = req.body.date;
-  const price = req.body.price;
-  let message = "Success";
-  connection.query(
-    "update OrderDetails set CustomerID=" +
-    connection.escape(cid) +
-    ", OrderDate=" +
-    connection.escape(date) +
-    ", Price=" +
-    connection.escape(price) +
-    "where OrderID=" +
-    connection.escape(id),
-    (error, result) => {
-      if (error || result.affectedRows === 0) {
-        message = "Error";
-        console.log(error);
-      }
-      console.log("Result", result);
-      res.redirect("/orders/");
-    }
-  );
-});
 
 //______________Customer Models_______________________//
 //Customer Models Home
@@ -650,7 +626,14 @@ app.post("/model/create", (req, res) => {
 });
 
 app.get("/model/delete", (req, res) => {
-  res.render("./model/delete");
+  connection.query(
+    "select ModelID, ModelName from Model",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result);
+      res.render("./model/delete", { data: result });
+    }
+  );
 });
 
 app.post("/model/delete", (req, res) => {
