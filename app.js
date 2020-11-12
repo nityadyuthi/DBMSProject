@@ -205,13 +205,13 @@ app.post("/customer/update", (req, res) => {
   let message = "Success";
   connection.query(
     "update Customer set CustomerName=" +
-      connection.escape(name) +
-      ", CustomerAddress=" +
-      connection.escape(address) +
-      ", PhoneNo=" +
-      connection.escape(phone) +
-      "where CustomerID=" +
-      connection.escape(id),
+    connection.escape(name) +
+    ", CustomerAddress=" +
+    connection.escape(address) +
+    ", PhoneNo=" +
+    connection.escape(phone) +
+    "where CustomerID=" +
+    connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
@@ -291,13 +291,13 @@ app.post("/orders/update", (req, res) => {
   let message = "Success";
   connection.query(
     "update OrderDetails set CustomerID=" +
-      connection.escape(cid) +
-      ", OrderDate=" +
-      connection.escape(date) +
-      ", Price=" +
-      connection.escape(price) +
-      "where OrderID=" +
-      connection.escape(id),
+    connection.escape(cid) +
+    ", OrderDate=" +
+    connection.escape(date) +
+    ", Price=" +
+    connection.escape(price) +
+    "where OrderID=" +
+    connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         console.log("Hi");
@@ -363,9 +363,9 @@ app.post("/customerModels/delete", (req, res) => {
   const mid = req.body.mid;
   connection.query(
     "delete from CustomerModels where CustomerID=" +
-      connection.escape(id) +
-      "and ModelID=" +
-      connection.escape(mid),
+    connection.escape(id) +
+    "and ModelID=" +
+    connection.escape(mid),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         message = "Error";
@@ -489,9 +489,9 @@ app.post("/modelParts/delete", (req, res) => {
   const ModelID = req.body.ModelID;
   connection.query(
     "delete from PartsOfModel where PartID=" +
-      connection.escape(PartID) +
-      "and ModelId=" +
-      connection.escape(ModelID),
+    connection.escape(PartID) +
+    "and ModelId=" +
+    connection.escape(ModelID),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         res.render("./error", {
@@ -574,9 +574,9 @@ app.post("/model/update", (req, res) => {
 
   connection.query(
     "update Model set ModelName=" +
-      connection.escape(ModelName) +
-      "where ModelID=" +
-      connection.escape(ModelID),
+    connection.escape(ModelName) +
+    "where ModelID=" +
+    connection.escape(ModelID),
     (error, result) => {
       if (error || result.affectedRows === 0) {
         message = "Error";
@@ -584,6 +584,70 @@ app.post("/model/update", (req, res) => {
       }
       console.log("Result", result);
       res.redirect("/model/");
+    }
+  );
+});
+
+//______________Order Parts_______________________//
+
+app.get("/orderParts", (req, res) => {
+  connection.query(
+    "select OrderID, PartID from OrderParts",
+    (error, result, fields) => {
+      if (error) throw error;
+      console.log(result);
+      res.render("./orderParts/index", { data: result, message: "Welcome" });
+    }
+  );
+});
+
+app.get("/orderParts/create", (req, res) => {
+  res.render("./orderParts/create");
+});
+
+app.post("/orderParts/create", (req, res) => {
+  const PartID = req.body.PartID;
+  const OrderID = req.body.OrderID;
+
+  connection.query(
+    "insert into OrderParts (OrderID, PartID) values (?)",
+    [[OrderID, PartID]],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        res.render("./error", {
+          message:
+            "There is already an entry with CustomerID= " +
+            PartID +
+            ". Enter Unique data",
+        });
+      } else {
+        res.redirect("/orderParts/");
+      }
+    }
+  );
+});
+
+app.get("/orderParts/delete", (req, res) => {
+  res.render("./orderParts/delete");
+});
+
+app.post("/orderParts/delete", (req, res) => {
+  const PartID = req.body.PartID;
+  const OrderID = req.body.OrderID;
+  connection.query(
+    "delete from OrderParts where PartID=" +
+    connection.escape(PartID) +
+    "and OrderID=" +
+    connection.escape(OrderID),
+    (error, result) => {
+      if (error || result.affectedRows === 0) {
+        res.render("./error", {
+          message: "There is no entry with Part ID " + PartID,
+        });
+      } else {
+        res.redirect("/orderParts/");
+      }
     }
   );
 });

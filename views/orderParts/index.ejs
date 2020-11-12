@@ -1,3 +1,26 @@
-<%- include("partials/header") -%>
+<%- include("../partials/header") -%>
+<h1>The Order Parts Table:</h1>
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Part ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% data.forEach(row => { %>
+        <tr>
+            <td><%= row.OrderID %></td>
+            <td><%= row.PartID %></td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+<h1>Do you want to:</h1>
+<div class="row padding list-group">
+    <a href="../orderParts/create" class="col-sm-3 padding-sm list-group-item list-group-item-info">Create a record</a>
+    <a href="../orderParts/delete"
+        class="col-sm-3 padding-sm list-group-item list-group-item-action list-group-item-info">Delete a record</a>
+</div>
 
-<%- include("partials/footer") -%>
+<%- include("../partials/footer") -%>
