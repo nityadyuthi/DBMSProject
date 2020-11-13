@@ -1,5 +1,5 @@
 //jshint esversion:6
-
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -21,10 +21,10 @@ app.use(express.static("public"));
 
 //__________________DATABASE CONNECTION_____________________//
 let connection = mysql.createConnection({
-  host: "remotemysql.com",
-  user: "1scowehuIc",
-  password: "dt6VenOJC6",
-  database: "1scowehuIc",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_USERNAME,
 });
 
 connection.connect((err) => {
@@ -52,36 +52,6 @@ app.post("/", (req, res) => {
     res.render("error", { message: message });
   }
 });
-
-// app.post("/", (req, res) => {
-//   const user = new User({
-//     username: req.body.userName,
-//     password: req.body.pw,
-//   });
-//   req.login(user, function (err) {
-//     //login() from passport
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       // console.log(user);
-//       passport.authenticate("local")(req, res, function () {
-//         res.redirect("/home");
-//       });
-//     }
-//   });
-// });
-
-// Home Route
-// app.get("/home", function (req, res) {
-//   if (req.isAuthenticated()) {
-//     res.render("home", {
-//       status: "ok",
-//     });
-//   } else {
-//     res.redirect("/");
-//   }
-//   res.render("home");
-// });
 
 // Home Route
 app.get("/home", (req, res) => {
