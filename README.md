@@ -47,4 +47,3 @@ Contributions of any kind are welcome 😄✨✨
 For further communication, hit us up at 
 * [Dyuthi](mailto:nityaa55@gmail.com)
 * [Likith](mailto:likithsrinath2000@gmail.com)
-* [Kanak](mailto:kanak101kd@gmail.com)
