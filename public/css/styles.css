@@ -1,3 +1,4 @@
+/* Tags */
 html {
   position: relative;
   min-height: 100%;
@@ -7,9 +8,6 @@ html,
 body {
   margin: 0;
   padding: 0;
-}
-.pageContentWrapper {
-  margin-bottom: 100px; /* Height of footer*/
 }
 
 body {
@@ -24,6 +22,15 @@ h4,
 h5 {
   font-family: "Inter", sans-serif;
   font-weight: 900;
+}
+
+/* Classes */
+.pageContentWrapper {
+  margin-bottom: 100px;
+}
+
+.red-text {
+  color: red;
 }
 
 .container-fluid {
@@ -47,7 +54,6 @@ h5 {
 .navbar-brand.brand {
   color: white;
   letter-spacing: 0.75px;
-  /* font-style: unset; */
 }
 
 .navbar-nav li a {
@@ -119,9 +125,9 @@ a.padding {
   background-color: #037ade;
 }
 
-table {
-  border-radius: 8px;
-  overflow: hidden;
+.btn-danger {
+  background-color: red;
+  margin-left: 90%;
 }
 
 .styled-table {

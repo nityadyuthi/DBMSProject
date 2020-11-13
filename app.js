@@ -4,11 +4,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mysql = require("mysql");
-const mongoose = require("mongoose");
-const session = require("express-session");
-const passport = require("passport");
-const passportLocalMongoose = require("passport-local-mongoose"); //salt and hash passwords
 const { result } = require("lodash");
+var isLoggedIn = false;
+var message = "";
 
 const app = express();
 
@@ -21,53 +19,6 @@ app.use(
 );
 app.use(express.static("public"));
 
-//Authentication using passport
-
-app.use(
-  session({
-    secret: "Our little secret.",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-// mongoose.connect(
-//   "mongodb+srv://dyuthi:root@theuserdb.jf6qg.mongodb.net/userDB?retryWrites=true&w=majority",
-//   {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useUnifiedTopology: true,
-//   }
-// );
-
-const mongooseConnection = mongoose.connection;
-
-mongooseConnection.once("open", () => {
-  console.log("MongoDB database connection established successfully!");
-});
-
-const userSchema = new mongoose.Schema({
-  email: String,
-  password: String,
-});
-
-userSchema.plugin(passportLocalMongoose);
-
-const User = new mongoose.model("User", userSchema);
-
-passport.use(User.createStrategy());
-//create cookie
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-//read cookie
-passport.deserializeUser(function (user, done) {
-  done(null, user);
-});
-
 //__________________DATABASE CONNECTION_____________________//
 let connection = mysql.createConnection({
   host: "remotemysql.com",
@@ -76,7 +27,7 @@ let connection = mysql.createConnection({
   database: "1scowehuIc",
 });
 
-connection.connect(function (err) {
+connection.connect((err) => {
   if (err) {
     return console.error("error: " + err.message);
   }
@@ -86,47 +37,64 @@ connection.connect(function (err) {
 //_________________________________________REQUESTS FROM HERE_________________________________________//
 
 //Root Route
-app.get("/", function (req, res) {
+app.get("/", (req, res) => {
   res.render("index");
 });
 
-// app.post("/", (req, res) => {
-//   const name = req.body.userName;
-//   const pw = req.body.pw;
-//   if (name === "admin" && pw === "root") {
-//     res.redirect("home");
-//   }
-//   res.render("home", { status: "not ok" });
-// });
-
 app.post("/", (req, res) => {
-  const user = new User({
-    username: req.body.userName,
-    password: req.body.pw,
-  });
-  req.login(user, function (err) {
-    //login() from passport
-    if (err) {
-      console.log(err);
-    } else {
-      // console.log(user);
-      passport.authenticate("local")(req, res, function () {
-        res.redirect("/home");
-      });
-    }
-  });
+  const name = req.body.userName;
+  const pw = req.body.pw;
+  if (name === "admin" && pw === "root") {
+    isLoggedIn = true;
+    res.render("home");
+  } else {
+    message = "Wrong username/password!❌❌<br/> Try again";
+    res.render("error", { message: message });
+  }
 });
 
+// app.post("/", (req, res) => {
+//   const user = new User({
+//     username: req.body.userName,
+//     password: req.body.pw,
+//   });
+//   req.login(user, function (err) {
+//     //login() from passport
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       // console.log(user);
+//       passport.authenticate("local")(req, res, function () {
+//         res.redirect("/home");
+//       });
+//     }
+//   });
+// });
+
 // Home Route
-app.get("/home", function (req, res) {
-  // if (req.isAuthenticated()) {
-  //   res.render("home", {
-  //     status: "ok",
-  //   });
-  // } else {
-  //   res.redirect("/");
-  // }
-  res.render("home");
+// app.get("/home", function (req, res) {
+//   if (req.isAuthenticated()) {
+//     res.render("home", {
+//       status: "ok",
+//     });
+//   } else {
+//     res.redirect("/");
+//   }
+//   res.render("home");
+// });
+
+// Home Route
+app.get("/home", (req, res) => {
+  if (isLoggedIn) {
+    res.render("home");
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/logout", (req, res) => {
+  isLoggedIn = false;
+  res.redirect("/");
 });
 
 //_________________________________CUSTOMER__________________________________________//
@@ -834,15 +802,15 @@ app.post("/orderParts/delete", (req, res) => {
 
 //__________________MISCELLANEOUS_____________________//
 // About Route
-app.get("/about", function (req, res) {
+app.get("/about", (req, res) => {
   res.render("./about");
 });
 
 // Contact Route
-app.get("/contact", function (req, res) {
+app.get("/contact", (req, res) => {
   res.render("./contact");
 });
 
-app.listen(3000, function () {
+app.listen(3000, () => {
   console.log("Server started on port 3000");
 });
