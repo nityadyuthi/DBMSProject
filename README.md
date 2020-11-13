@@ -1,5 +1,5 @@
 # DBMSProject
-A full-stack web application to manage a student database.
+A full-stack web application to manage a spare parts database for motorbikes.
 This project was made as an assignment at college.
 
 ## Technologies
@@ -31,15 +31,20 @@ This project is a(n extremely simple) full stack web application to access a dat
 
 The database is hosted for free at [RemoteMySQL](http://remotemysql.com) and administered using phpMyAdmin.
 
-Note: Auth game is admittedly weak 🤡 
+Note: Auth is as basic as it could be, it can be improved. Also, make sure to give a stronger password for the **very secret** username, and make sure to make it an environment var.
 
-If you need to use this project, please make sure to add proper authorisation.
+If you need to use this project, please make sure to add proper authentication.
 
 
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+For major changes, please open an issue first to discuss what you would like to change.
 
 There is a lot to change in the project, specially authorisation. 
 
 Contributions of any kind are welcome 😄✨✨
+
+For further communication, hit us up at 
+* [Dyuthi](mailto:nityaa55@gmail.com)
+* [Likith](mailto:likithsrinath2000@gmail.com)
+* [Kanak](mailto:kanak101kd@gmail.com)
