@@ -163,7 +163,6 @@ app.post("/customer/update", (req, res) => {
       connection.escape(id),
     (error, result) => {
       if (error || result.affectedRows === 0) {
-        console.log("Hi");
         message = "Error";
         console.log(error);
       }
@@ -522,7 +521,6 @@ app.get("/modelParts/delete", (req, res) => {
 app.post("/modelParts/delete", (req, res) => {
   const PartID = req.body.PartID;
   const ModelID = req.body.ModelID;
-  console.log("Hello");
   connection.query(
     "delete from PartsOfModel where PartID=" +
       connection.escape(PartID) +
