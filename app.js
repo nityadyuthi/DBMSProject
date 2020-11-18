@@ -638,7 +638,7 @@ app.post("/orderParts/create", (req, res) => {
   const PartID = req.body.PartID;
   const OrderID = req.body.OrderID;
   connection.query(
-    "SELECT P.Stock, P.Price from Parts P, OrderParts OP WHERE P.PartID=OP.PartID AND OP.PartID=" +
+    "SELECT P.Stock, P.Price from Parts P WHERE P.PartID=" +
     connection.escape(PartID),
     (error, stock) => {
       if (error) throw error;
