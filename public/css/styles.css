@@ -41,10 +41,11 @@ h5 {
 .navbar {
   padding-top: 10px;
   padding-bottom: 15px;
+  padding-left: 10px;
   border: 0;
   border-radius: 0;
   margin-bottom: 0;
-  font-size: 12px;
+  font-size: 1.5rem;
   letter-spacing: 5px;
   color: #fff;
   background-color: #03e5b7;
@@ -54,11 +55,13 @@ h5 {
 .navbar-brand.brand {
   color: white;
   letter-spacing: 0.75px;
+  font-size: 2.5rem;
 }
 
 .navbar-nav li a {
   color: white !important;
   font-style: unset;
+  letter-spacing: 0.75px;
 }
 
 .navbar-nav li a:hover {
