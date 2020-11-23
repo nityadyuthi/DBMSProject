@@ -8,9 +8,8 @@ html,
 body {
   margin: 0;
   padding: 0;
-}
-
-body {
+  background-color: #0f0e17;
+  color: #fffffe;
   font-family: "Inter", sans-serif;
   font-weight: 800;
 }
@@ -22,6 +21,25 @@ h4,
 h5 {
   font-family: "Inter", sans-serif;
   font-weight: 900;
+}
+
+input[type=text] {
+  background-color: #ff8906;
+  color: #fffffe;
+}
+
+input[type=password] {
+  background-color: #ff8906;
+  color: #fffffe;
+}
+
+input[type=number] {
+  background-color: #ff8906;
+  color: #fffffe;
+}
+
+input:focus {
+  background-color: #f25f4c;
 }
 
 /* Classes */
@@ -48,8 +66,7 @@ h5 {
   font-size: 1.5rem;
   letter-spacing: 5px;
   color: #fff;
-  background-color: #03e5b7;
-  background-image: linear-gradient(315deg, #03e5b7 0%, #037ade 74%);
+  background-color: #ff8906;
 }
 
 .navbar-brand.brand {
@@ -65,11 +82,11 @@ h5 {
 }
 
 .navbar-nav li a:hover {
-  color: #037ade !important;
+  color: #f25f4c !important;
 }
 
 .navbar-branch li a:hover {
-  color: #037ade !important;
+  color: #f25f4c !important;
 }
 
 .footer-padding {
@@ -84,8 +101,7 @@ h5 {
   bottom: 0;
   width: 100%;
   height: 50px;
-  background-color: #03e5b7;
-  background-image: linear-gradient(315deg, #03e5b7 0%, #037ade 74%);
+  background-color: #ff8906;
   flex-shrink: 0;
 }
 
@@ -99,6 +115,7 @@ h5 {
 .form-group {
   margin-bottom: 5px;
 }
+
 
 .padding {
   padding: 1.25rem;
@@ -125,12 +142,16 @@ a.padding {
   font-family: "Inter", sans-serif;
   font-weight: 900;
   font-size: 1.5rem;
-  background-color: #037ade;
+  background-color: #ff8906;
+}
+
+.btn:hover {
+  background-color: #f25f4c;
 }
 
 .btn-danger {
   background-color: red;
-  margin-left: 90%;
+  margin-left: 3rem;
 }
 
 .styled-table {
@@ -145,7 +166,7 @@ a.padding {
 
 .styled-table thead tr {
   border-radius: 8px;
-  background-color: #03e5b7;
+  background-color: #f25f4c;
   color: #ffffff;
   text-align: left;
   font-family: "Inter", sans-serif;
@@ -160,28 +181,36 @@ a.padding {
   padding: 12px 15px;
 }
 
-.styled-table tbody tr {
-  border-bottom: 1px solid #dddddd;
-}
-
 .styled-table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
+  background-color: #ff8906;
+  border: none;
 }
 
 .styled-table tbody tr:last-of-type {
-  border-bottom: 2px solid #03e5b7;
+  border-bottom: 2px solid #f25f4c;
   border-radius: 8px;
 }
 
 .list-group {
-  max-width: 55rem;
+  max-width: 40rem;
 }
 
 a.list-group-item-info,
 button.list-group-item-info {
-  background: #f3f3f3;
-  color: rgb(56, 55, 55);
+  background: #f25f4c;
+  color: white;
   border-radius: 6px !important;
+  border: none;
+}
+
+a.list-group-item-info-sm,
+button.list-group-item-info-sm {
+  background: #f25f4c;
+  color: white;
+  font-size: 1.55rem;
+  border-radius: 6px !important;
+  border: none;
+  display: inline-block;
 }
 
 a.list-group-item-info:hover,
