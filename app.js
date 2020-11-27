@@ -82,13 +82,12 @@ app.get("/customer/create", (req, res) => {
 });
 
 app.post("/customer/create", (req, res) => {
-  const id = req.body.id;
   const name = req.body.name;
   const address = req.body.address;
   const phone = req.body.phone;
   connection.query(
-    "insert into Customer (CustomerID, CustomerName, CustomerAddress, PhoneNo) values (?)",
-    [[id, name, address, phone]],
+    "insert into Customer (CustomerName, CustomerAddress, PhoneNo) values (?)",
+    [[name, address, phone]],
     (error) => {
       if (error) {
         if (error.errno === 1062) {

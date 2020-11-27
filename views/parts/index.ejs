@@ -1,34 +1,43 @@
 <%- include("../partials/header") -%>
 <h1>The Parts Table:</h1>
 <table class="styled-table">
-    <thead>
-        <tr>
-            <th>Part ID</th>
-            <th>Part Name</th>
-            <th>Part Type</th>
-            <th>Stock</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% data.forEach(row => { %>
-        <tr>
-            <td><%= row.PartID %></td>
-            <td><%= row.PartName %></td>
-            <td><%= row.PartTypeName %></td>
-            <td><%= row.Stock %></td>
-            <td><%= row.Price %></td>
-        </tr>
-        <% }); %>
-    </tbody>
+  <thead>
+    <tr>
+      <th>Part ID</th>
+      <th>Part Name</th>
+      <th>Part Type</th>
+      <th>Stock</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% data.forEach(row => { %>
+    <tr>
+      <td><%= row.PartID %></td>
+      <td><%= row.PartName %></td>
+      <td><%= row.PartTypeName %></td>
+      <td><%= row.Stock %></td>
+      <td><%= row.Price %></td>
+    </tr>
+    <% }); %>
+  </tbody>
 </table>
 <h1>Do you want to:</h1>
 <div class="row padding list-group">
-    <a href="../parts/create" class="col-sm-3 padding-sm list-group-item list-group-item-info">Create a
-        record</a>
-    <a href="../parts/update"
-        class="col-sm-3 padding-sm list-group-item list-group-item-action list-group-item-info">Update a record</a>
-    <a href="../parts/delete"
-        class="col-sm-3 padding-sm list-group-item list-group-item-action list-group-item-info">Delete a record</a>
+  <a
+    href="../parts/create"
+    class="col-sm-3 padding-sm list-group-item list-group-item-info-sm"
+    >Create a record</a
+  >
+  <a
+    href="../parts/update"
+    class="col-sm-3 padding-sm list-group-item list-group-item-action list-group-item-info-sm"
+    >Update a record</a
+  >
+  <a
+    href="../parts/delete"
+    class="col-sm-3 padding-sm list-group-item list-group-item-action list-group-item-info-sm"
+    >Delete a record</a
+  >
 </div>
 <%- include("../partials/footer") -%>

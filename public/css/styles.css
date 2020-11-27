@@ -95,6 +95,7 @@ input:focus {
 }
 
 .footer {
+  left: 0;
   position: absolute;
   display: block;
   text-align: center;
